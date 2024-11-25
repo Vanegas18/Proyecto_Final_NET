@@ -58,6 +58,15 @@ namespace Proyecto_Final.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idproducto,Nombre,Descripcion,Precio,Stock,IdcategoriaProducto")] Producto producto)
         {
+            if (!ModelState.IsValid)
+            {
+                // Log para depuración
+                foreach (var modelError in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(modelError.ErrorMessage);
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(producto);

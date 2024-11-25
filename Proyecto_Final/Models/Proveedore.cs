@@ -19,5 +19,5 @@ public partial class Proveedore
 
     public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
 
-    public virtual CategoriasProveedore IdcategoriaProveedorNavigation { get; set; } = null!;
+    public virtual CategoriasProveedore? IdcategoriaProveedorNavigation { get; set; }
 }
