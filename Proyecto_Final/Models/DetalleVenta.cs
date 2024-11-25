@@ -17,6 +17,7 @@ public partial class DetalleVenta
 
     public decimal? Subtotal { get; set; }
 
+
     public virtual Producto IdproductoNavigation { get; set; } = null!;
 
     public virtual Venta IdventaNavigation { get; set; } = null!;

@@ -13,6 +13,8 @@ public partial class Compra
 
     public decimal Total { get; set; }
 
+    public string? Estado { get; set; }
+
     public virtual ICollection<DetalleCompra> DetalleCompras { get; set; } = new List<DetalleCompra>();
 
     public virtual Proveedore IdproveedorNavigation { get; set; } = null!;

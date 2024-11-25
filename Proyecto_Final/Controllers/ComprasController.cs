@@ -56,7 +56,7 @@ namespace Proyecto_Final.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Idcompra,Fecha,Idproveedor,Total")] Compra compra)
+        public async Task<IActionResult> Create([Bind("Idcompra,Fecha,Idproveedor,Total,Estado")] Compra compra)
         {
             if (ModelState.IsValid)
             {

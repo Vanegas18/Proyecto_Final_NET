@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proyecto_Final.Models;
 
@@ -11,9 +12,11 @@ using Proyecto_Final.Models;
 namespace Proyecto_Final.Migrations
 {
     [DbContext(typeof(ProyectoFinalNetContext))]
-    partial class ProyectoFinalNetContextModelSnapshot : ModelSnapshot
+    [Migration("20241125204227_AddEstadoToVentas")]
+    partial class AddEstadoToVentas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
