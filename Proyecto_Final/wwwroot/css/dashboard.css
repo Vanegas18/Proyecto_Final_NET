@@ -1,10 +1,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
 
+:root {
+  --color-primary: #6c9bcf;
+  --color-danger: #ff0060;
+  --color-success: #1b9c85;
+  --color-warning: #f7d060;
+  --color-white: #fff;
+  --color-info-dark: #7d8da1;
+  --color-dark: #363949;
+  --color-light: rgba(132, 139, 200, 0.18);
+  --color-dark-variant: #677483;
+  --color-background: #f6f6f9;
+
+  --card-border-radius: 2rem;
+  --border-radius-1: 0.4rem;
+  --border-radius-2: 1.2rem;
+
+  --card-padding: 1.8rem;
+  --padding-1: 1.2rem;
+
+  --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
 * {
   margin: 0;
   padding: 0;
+  outline: 0;
+  appearance: 0;
+  border: 0;
+  text-decoration: none;
   box-sizing: border-box;
-  font-family: "Ubuntu";
 }
 
 a {
@@ -64,7 +89,7 @@ nav .login #signup {
   align-items: center;
 }
 
-.fa-solid {
+.fa-dash {
   font-size: 50px;
   color: black;
   margin-bottom: 10px;
@@ -104,4 +129,120 @@ footer {
   padding: 1rem;
   background-color: transparent;
   color: black;
+}
+
+.contenedor-productos {
+  border: 2px solid var(--color-primary);
+  width: 250px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 500px;
+  border-radius: 8px;
+  background-color: white;
+  color: black;
+}
+
+.contenedor-productos input {
+  padding: 3px;
+}
+
+.contenedor-productos .buscador .search {
+  margin-left: 5px;
+  align-items: center;
+  overflow: hidden;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 0.88rem;
+  overflow-x: hidden;
+  color: var(--color-dark);
+  background-color: var(--color-background);
+}
+
+.container {
+  height: 100vh;
+  justify-content: space-between;
+  width: 96%;
+  margin: 0 auto;
+  gap: 1rem;
+  max-width: 1600px;
+}
+
+main {
+  padding: 1rem;
+  margin-left: 30px;
+}
+
+main .recent-orders {
+  margin-top: 1.3rem;
+}
+
+main .recent-orders h2 {
+  margin-bottom: 0.8rem;
+}
+
+main .recent-orders table {
+  background-color: var(--color-white);
+  width: 100%;
+  padding: var(--card-padding);
+  text-align: center;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--card-border-radius);
+  transition: all 0.3s ease;
+}
+
+main .recent-orders table:hover {
+  box-shadow: none;
+}
+
+main table tbody td {
+  height: 2.8rem;
+  border-bottom: 1px solid var(--color-light);
+  color: var(--color-dark-variant);
+}
+
+main table tbody tr:last-child td {
+  border: none;
+}
+
+main .recent-orders a {
+  margin: 1rem auto;
+  gap: 3px;
+  margin-left: 5px;
+  color: var(--color-primary);
+}
+
+.linksOptions {
+  margin-bottom: 80px;
+  margin-left: 385px;
+  margin-top: 20px;
+}
+
+.linksOptions button {
+  margin-right: 5px;
+}
+
+.botones {
+  background-color: #6c747e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+th {
+  text-align: center !important;
+}
+
+th,
+td {
+  text-align: center !important;
 }
