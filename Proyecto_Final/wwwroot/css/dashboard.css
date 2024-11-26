@@ -64,6 +64,12 @@ nav .login #signup {
   align-items: center;
 }
 
+.fa-solid {
+  font-size: 50px;
+  color: black;
+  margin-bottom: 10px;
+}
+
 .section {
   background-color: #f4f4f4;
   border-radius: 5px;
