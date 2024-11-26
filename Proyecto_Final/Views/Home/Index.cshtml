@@ -1,8 +1,174 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Homeeee</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body class="container" style="margin: 0; padding: 0;">
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" class="logo">BuildMart</a>
+        <div class="links">
+            <a href="#">Inicio</a>
+            <a href="#sobrenosotros">Sobre Nosotros</a>
+        </div>
+        <div class="login">
+            <a id="signup" class="signup" href="./PAGES/viewLogin/login.html">Inicia Sesión</a>
+            <a asp-action="Dashboard">Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <div class="left">
+            <h1>¡Construimos tus sueños!<span> Somos BuildMart</span></h1>
+            <p>
+                ¡Hola! Bienvenido a <b>BuildMart</b> en este lugar podrás conocer un
+                poco de nosotros. <br>
+                ¡Ven y descubre cómo podemos ayudarte a crear el hogar de tus sueños!
+            </p>
+            <a href="#contacto">
+                <i class="bx bx-chat"></i>
+                <span>¡Contactanos!</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- About Us Section -->
+    <h2 id="sobrenosotros" class="separator">Sobre nosotros</h2>
+    <div class="sell-nft">
+        <div id="1" class="item">
+            <div class="header">
+                <i class="bx bx-building-house"></i>
+                <h5>¿Quienes somos?</h5>
+            </div>
+            <p>
+                Somos una empresa dedicada a la creación de casas prefabricadas que
+                combinan diseño innovador, calidad excepcional y sostenibilidad. Desde
+                nuestros inicios, hemos tenido como misión ofrecer soluciones de
+                vivienda que no solo cumplan con las expectativas de nuestros
+                clientes, sino que las superen, proporcionando un hogar que se adapte
+                a sus necesidades y estilo de vida.
+            </p>
+        </div>
+        <div id="2" class="item">
+            <div class="header">
+                <i class="bx bx-heart"></i>
+                <h5>¡Lo que nos mueve!</h5>
+            </div>
+            <p>
+                Nos enorgullece utilizar materiales de alta calidad y tecnologías de
+                construcción avanzadas, garantizando que nuestras casas no solo sean
+                bellas, sino también duraderas y enérgicamente eficientes. Además, nos
+                comprometemos con la sostenibilidad, implementando prácticas de
+                construcción responsables que minimizan el impacto ambiental.
+            </p>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <h2 class="separator" id="productos">Un poco de nuestros modelos</h2>
+    <div class="nft-shop"> 
+        <div class="nft-list">
+            <div class="item">
+                <img src="https://prefabrihouse.com.co/wp-content/uploads/2023/07/Prefabrihouse-Casas-Metalicas-04.jpg?v=1689085579" alt="" />
+                <div class="info">
+                    <div>
+                        <h5>MCV Cubica</h5>
+                        <div class="btc">
+                            <i class="bx bxs-dollar-circle"></i>
+                            <p>$30.000.000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bid">
+                    <p>45 M2</p>
+                    <a href="https://web.whatsapp.com/" target="_blank">¡La quiero!</a>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://construcasasprefabricados.com.co/wp-content/uploads/2019/04/tipo-cubo-5.jpg" alt="" />
+                <div class="info">
+                    <div>
+                        <h5>MCV Campestre</h5>
+                        <div class="btc">
+                            <i class="bx bxs-dollar-circle"></i>
+                            <p>$60.000.000</p>
+                        </div>
+                    </div>
+                    <p></p>
+                </div>
+                <div class="bid">
+                    <p>60 M2</p>
+                    <a href="https://web.whatsapp.com/" target="_blank">¡La quiero!</a>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://inarquia.es/wp-content/uploads/unnamed-15-1.jpg" alt="" />
+                <div class="info">
+                    <div>
+                        <h5>MCV Verano</h5>
+                        <div class="btc">
+                            <i class="bx bxs-dollar-circle"></i>
+                            <p>$150.000.000</p>
+                        </div>
+                    </div>
+                    <p></p>
+                </div>
+                <div class="bid">
+                    <p>80 M2</p>
+                    <a href="https://web.whatsapp.com/" target="_blank">¡La quiero!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View More Button -->
+    <div class="view-more">
+            <button><a href="./PAGES/viewLandingProductos/Productos.html">Mirar mas</a></button>
+    </div>
+
+    <!-- Team Section -->
+        <h2 class="separator">Equipo Build Mart</h2>
+        <div class="sellers">
+            <div class="item">
+                <img src="https://images.imagenmia.com/model_version/c5e4533b56d3e5048df34eec31df7cfa2f0a10f477886af442a2fb372569324e/1723815980081-output.jpg" alt="" />
+                <div class="info">
+                    <h4>Miguel Doria</h4>
+                    <p>Desarrollador</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://images.imagenmia.com/model_version/bbfea91410ef7994cfefde4a33e032f3aebf7b90dda683f7fa32ea2685d2e7bb/1723819204347-output.jpg" alt="" />
+                <div class="info">
+                    <h4>Juan Vanegas</h4>
+                    <p>Desarrollador</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://images.imagenmia.com/model_version/e14877b49936ab73eb9e26b78cf70d36e50fff33d21a44fcd72254bca11c7713/1723814479458-output.jpg" alt="" />
+                <div class="info">
+                    <h4>David Moncada</h4>
+                    <p>Desarrollador</p>
+                </div>
+            </div>
+        </div>
+
+    <!-- Footer Section -->
+        <footer id="contacto" style="width: 100%;">
+            <h3>Transformamos sueños en realidades tangibles.</h3>
+            <div class="right">
+                <div class="links">
+                    <a href="#">¡Contactanos!</a>
+                </div>
+                <div class="social">
+                    <i class="bx bxl-whatsapp"></i>
+                    <i class="bx bxl-instagram"></i>
+                    <i class="bx bxl-facebook-square"></i>
+                </div>
+                <p>Copyright © 2024 Build Mart</p>
+            </div>
+        </footer>
+</body>

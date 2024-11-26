@@ -1,0 +1,69 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+</head>
+
+<body class="container" style="margin: 0; padding: 0;">
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" class="logo">BuildMart</a>
+        <div class="links">
+            <a asp-action="Index">Inicio</a>
+        </div>
+        <div class="login">
+            <a asp-action="Index" class="signup" id="signup">Cerrar Sesión</a>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <div class="infoD">
+        <h1>Dashboard de BuildMart</h1>
+        <p>Aquí puedes gestionar el contenido de tu sitio web.</p>
+    </div>
+
+    <!-- Dashboard Sections -->
+    <div class="dashboard-sections">
+        <!-- Manage Users Section -->
+        <div class="section">
+            <h2>Gestionar Usuarios</h2>
+            <p>Agregar, editar o eliminar usuarios.</p>
+            <a asp-controller="Usuarios" asp-action="Index" class="btn">Gestionar</a>
+        </div>
+
+        <!-- Manage Products Section -->
+        <div class="section">
+            <h2>Gestionar Productos</h2>
+            <p>Agregar, editar o eliminar productos.</p>
+            <a asp-controller="Productos" asp-action="Index" class="btn">Gestionar</a>
+        </div>
+
+        <!-- Manage Suppliers Section -->
+        <div class="section">
+            <h2>Gestionar Proveedores</h2>
+            <p>Agregar, editar o eliminar proveedores.</p>
+            <a asp-controller="Proveedores" asp-action="Index" class="btn">Gestionar</a>
+        </div>
+
+        <!-- Manage Purchases Section -->
+        <div class="section">
+            <h2>Gestionar Compras</h2>
+            <p>Agregar, editar o eliminar compras.</p>
+            <a asp-controller="Compras" asp-action="Index" class="btn">Gestionar</a>
+        </div>
+
+        <!-- Manage Sales Section -->
+        <div class="section">
+            <h2>Gestionar Ventas</h2>
+            <p>Agregar, editar o eliminar ventas.</p>
+            <a asp-controller="Ventas" asp-action="Index" class="btn">Gestionar</a>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer style="width: 100%;">
+        <p>Copyright © 2024 Build Mart</p>
+    </footer>
+</body>
