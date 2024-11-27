@@ -1,53 +1,165 @@
 ﻿@model IEnumerable<Proyecto_Final.Models.Usuario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Usuarios - ";
 }
 
-<h1>Index</h1>
+<head>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+</head>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contraseña)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rol)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contraseña)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rol)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Idusuario">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Idusuario">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Idusuario">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<body>
+    <div class="container">
+        <nav>
+            <a href="#" class="logo">BuildMart</a>
+            <div class="links">
+                <a asp-controller="Home" asp-action="Dashboard">Inicio</a>
+            </div>
+            <div class="login">
+                <button type="button" class="btn btn-dark">
+                    <a asp-controller="Home" asp-action="Dashboard" class="signup" style="color: white;">Cerrar Sesión</a>
+                </button>
+            </div>
+        </nav>
+
+        <main class="mainTables">
+            <div class="recent-orders">
+                <h1 style="text-align: center;">GESTIÓN DE USUARIOS</h1>
+                <div class="linksOptions">
+                    <button type="button" class="btn btn-primary">
+                        <a asp-action="Create" style="color: white;">Crear Nuevo Usuario</a>
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <a asp-controller="Home" asp-action="Dashboard" style="color: white;">Volver</a>
+                    </button>
+                </div>
+                <table class="table tablaUsuarios" id="example">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                            <th>@Html.DisplayNameFor(model => model.Correo)</th>
+                            <th>@Html.DisplayNameFor(model => model.Contraseña)</th>
+                            <th>@Html.DisplayNameFor(model => model.Rol)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Correo)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Contraseña)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Rol)</td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary">
+                                        <a asp-action="Edit" asp-route-id="@item.Idusuario" style="color: white;">Editar</a>
+                                    </button>
+                                    <button type="button" class="btn btn-danger">
+                                        <a asp-action="Delete" asp-route-id="@item.Idusuario" style="color: white;">Eliminar</a>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary">
+                                        <a asp-action="Details" asp-route-id="@item.Idusuario" style="color: white;">Detalles</a>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+
+<script>
+    // DataTable
+    new DataTable('#example', {
+        dom: '',
+
+        // Modificar el idioma de la tabla
+        language: {
+            search: "Buscar:",
+            lengthMenu: "Mostrar _MENU_ entradas",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            infoEmpty: "Mostrando 0 a 0 de 0 entradas",
+            infoFiltered: "(filtrado de _MAX_ entradas totales)",
+            paginate: {
+                next: ">",
+                previous: "<"
+            },
+            zeroRecords: "No se encontraron registros coincidentes"
+        },
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'copy',
+                        text: '<i class="fa-solid fa-copy"></i>',
+                        className: 'botonCopiar btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3] // Excluye la última columna
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<i class="fa-solid fa-file-csv"></i>',
+                        className: 'botonCsv btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3] // Excluye la última columna
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa-solid fa-download"> excel </i>',
+                        className: 'botonExcel btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3] // Excluye la última columna
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: `<i class="fa-solid fa-download"> <br> <br> pdf </i>`,
+                        className: 'botonPdf btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3] // Excluye la última columna
+                        },
+                        customize: function (doc) {
+                            doc.content[1].table.widths = ['*', '*', '*', '*'];
+                            doc.content[1].table.body.forEach(function (row) {
+                                row.forEach(function (cell) {
+                                    cell.alignment = 'center';
+                                });
+                            });
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa-solid fa-print"></i>',
+                        className: 'botonPrint btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3] // Excluye la última columna
+                        },
+                        customize: function (win) {
+                            $(win.document.body).find('table').addClass('display').css('text-align', 'center');
+                            $(win.document.body).find('table th, table td').css('text-align', 'center');
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'Filtrar ',
+                        className: 'botonColvis btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3] // Excluye la última columna
+                        }
+                    }
+                ]
+            }
+        },
+        scrollX: true,
+        initComplete: function(json, settings) {
+            // Eliminar clase por defecto y añadir clase personalizada
+            $(".dt-buttons").removeClass("dt-buttons");
+            $(".dt-button").addClass("botones");
+        }
+    });
+</script>
