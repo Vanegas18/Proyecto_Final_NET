@@ -1,53 +1,132 @@
 ﻿@model Proyecto_Final.Models.Producto
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Producto - ";
 }
 
-<h1>Edit</h1>
+<!-- Estilos -->
+<head>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+</head>
 
-<h4>Producto</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Idproducto" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+<!-- Estilos en el mismo archivo -->
+<style>
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        margin-top: 50px;
+        margin-left: 80px;
+    }
+
+    hr {
+        width: 50%;
+        margin-left: 350px;
+        border: 1px solid #000;
+    }
+
+    .form-container {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 50px;
+        margin-top: -70px;
+    }
+
+    .control-label {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        font-weight: 500;
+    }
+
+    .text-danger {
+        color: #e74c3c;
+    }
+
+    .form-box {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .form-box:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<!-- Contenido -->
+<body>
+    <div class="container">
+        <!-- Navegación -->
+        <nav>
+            <a href="#" class="logo">BuildMart</a>
+            <div class="links">
+                <a asp-controller="Home" asp-action="Dashboard">Inicio</a>
             </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            <div class="login">
+                <button type="button" class="btn btn-dark">
+                    <a asp-controller="Home" asp-action="Dashboard" class="signup" style="color: white;">Cerrar Sesión</a>
+                </button>
             </div>
-            <div class="form-group">
-                <label asp-for="Precio" class="control-label"></label>
-                <input asp-for="Precio" class="form-control" />
-                <span asp-validation-for="Precio" class="text-danger"></span>
+        </nav>
+        <!-- Título -->
+        <h1 style="text-align: center;">EDITAR PRODUCTO</h1>
+        <hr>
+        <!-- Formulario -->
+        <div class="row form-container">
+            <div class="col-md-4 form-box">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Idproducto" />
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Descripcion" class="control-label"></label>
+                        <input asp-for="Descripcion" class="form-control" />
+                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Precio" class="control-label"></label>
+                        <input asp-for="Precio" class="form-control" />
+                        <span asp-validation-for="Precio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Stock" class="control-label"></label>
+                        <input asp-for="Stock" class="form-control" />
+                        <span asp-validation-for="Stock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdcategoriaProducto" class="control-label">Categoría</label>
+                        <select asp-for="IdcategoriaProducto" class="form-control" asp-items="ViewBag.IdcategoriaProducto">
+                            <option value="">Seleccione una categoría</option>
+                        </select>
+                        <span asp-validation-for="IdcategoriaProducto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                        <button type="button" class="btn btn-dark">
+                            <a asp-action="Index" style="color: white; text-decoration: none;">Cancelar</a>
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Stock" class="control-label"></label>
-                <input asp-for="Stock" class="form-control" />
-                <span asp-validation-for="Stock" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdcategoriaProducto" class="control-label"></label>
-                <select asp-for="IdcategoriaProducto" class="form-control" asp-items="ViewBag.IdcategoriaProducto"></select>
-                <span asp-validation-for="IdcategoriaProducto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</body>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

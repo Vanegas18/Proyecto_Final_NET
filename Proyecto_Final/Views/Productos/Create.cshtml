@@ -4,12 +4,13 @@
     ViewData["Title"] = "Productos - ";
 }
 
+<!-- Estilos -->
 <head>
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
 </head>
 
+<!-- Estilos en el mismo archivo -->
 <style>
-
     h1 {
         font-size: 2.5em;
         margin-bottom: 10px;
@@ -34,7 +35,7 @@
         margin-top: -70px;
     }
 
-    .control-label{
+    .control-label {
         font-weight: bold;
         text-transform: uppercase;
     }
@@ -46,7 +47,7 @@
     .form-control {
         font-weight: 500;
     }
-    
+
     .text-danger {
         color: #e74c3c;
     }
@@ -58,27 +59,31 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
     }
+
     .form-box:hover {
         transform: scale(1.05);
     }
-
 </style>
 
+<!-- Contenido -->
 <body>
     <div class="container">
-            <nav>
-                <a href="#" class="logo">BuildMart</a>
-                <div class="links">
-                    <a asp-controller="Home" asp-action="Dashboard">Inicio</a>
-                </div>
-                <div class="login">
-                    <button type="button" class="btn btn-dark">
-                        <a asp-controller="Home" asp-action="Dashboard" class="signup" style="color: white;">Cerrar Sesión</a>
-                    </button>
-                </div>
-            </nav>
-            <h1 style="text-align: center;">AÑADIR PRODUCTO</h1>
-            <hr>
+        <!-- Navegación -->
+        <nav>
+            <a href="#" class="logo">BuildMart</a>
+            <div class="links">
+                <a asp-controller="Home" asp-action="Dashboard">Inicio</a>
+            </div>
+            <div class="login">
+                <button type="button" class="btn btn-dark">
+                    <a asp-controller="Home" asp-action="Dashboard" class="signup" style="color: white;">Cerrar Sesión</a>
+                </button>
+            </div>
+        </nav>
+        <!-- Título -->
+        <h1 style="text-align: center;">AÑADIR PRODUCTO</h1>
+        <hr>
+        <!-- Formulario -->
         <div class="form-container">
             <div class="col-md-4 form-box">
                 <form asp-action="Create">
@@ -105,7 +110,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="IdcategoriaProducto" class="control-label">Categoría</label>
-                        <select asp-for="IdcategoriaProducto" class ="form-control" asp-items="ViewBag.IdcategoriaProducto"></select>
+                        <select asp-for="IdcategoriaProducto" class="form-control" asp-items="ViewBag.IdcategoriaProducto"></select>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Crear" class="btn btn-primary" />
@@ -116,7 +121,6 @@
                 </form>
             </div>
         </div>
-
     </div>
 </body>
 

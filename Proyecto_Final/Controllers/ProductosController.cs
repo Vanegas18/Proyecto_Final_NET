@@ -41,6 +41,9 @@ namespace Proyecto_Final.Controllers
                 return NotFound();
             }
 
+            // Obtener el nombre de la categoría
+            ViewData["NombreCategoria"] = producto.IdcategoriaProductoNavigation.Nombre;
+
             return View(producto);
         }
 
@@ -91,7 +94,7 @@ namespace Proyecto_Final.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdcategoriaProducto"] = new SelectList(_context.CategoriasProductos, "IdcategoriaProducto", "IdcategoriaProducto", producto.IdcategoriaProducto);
+            ViewData["IdcategoriaProducto"] = new SelectList(_context.CategoriasProductos, "IdcategoriaProducto", "Nombre", producto.IdcategoriaProducto);
             return View(producto);
         }
 
@@ -151,17 +154,38 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: Productos/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Busca un producto por su id y en caso de no encontrarlo, muestra un mensaje de error
             var producto = await _context.Productos.FindAsync(id);
-            if (producto != null)
+            if (producto == null)
             {
-                _context.Productos.Remove(producto);
+                TempData["Error"] = "No se puede eliminar el producto, no se encontró";
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            // Verifica si el producto está siendo utilizado en alguna venta y en caso de estarlo, muestra un mensaje de error
+            var ventasAsociadas = await _context.DetalleVentas.AnyAsync(dv => dv.Idproducto == id);
+            if (ventasAsociadas)
+            {
+                TempData["Error"] = "No se puede eliminar el producto, está siendo utilizado en una venta";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Hace el control de errores al eliminar un producto
+            try
+            {
+                _context.Productos.Remove(producto);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                TempData["Error"] = "No se puede eliminar el producto.";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -255,3 +255,13 @@ th,
 td {
   text-align: center !important;
 }
+
+.stock-bajo {
+  color: red;
+  font-weight: bold;
+}
+
+.stock-alto{
+  color: #007aff;
+  font-weight: bold;
+}
