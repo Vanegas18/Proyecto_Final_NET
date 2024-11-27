@@ -47,7 +47,7 @@ namespace Proyecto_Final.Controllers
         // GET: Productos/Create
         public IActionResult Create()
         {
-            ViewData["IdcategoriaProducto"] = new SelectList(_context.CategoriasProductos, "IdcategoriaProducto", "IdcategoriaProducto");
+            ViewData["IdcategoriaProducto"] = new SelectList(_context.CategoriasProductos, "IdcategoriaProducto", "Nombre");
             return View();
         }
 
@@ -65,6 +65,7 @@ namespace Proyecto_Final.Controllers
                 {
                     Console.WriteLine(modelError.ErrorMessage);
                 }
+
             }
 
             if (ModelState.IsValid)
@@ -73,7 +74,7 @@ namespace Proyecto_Final.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdcategoriaProducto"] = new SelectList(_context.CategoriasProductos, "IdcategoriaProducto", "IdcategoriaProducto", producto.IdcategoriaProducto);
+            ViewData["IdcategoriaProducto"] = new SelectList(_context.CategoriasProductos, "IdcategoriaProducto", "Nombre", producto.IdcategoriaProducto);
             return View(producto);
         }
 
