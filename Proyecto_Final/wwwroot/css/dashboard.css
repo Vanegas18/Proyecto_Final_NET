@@ -9,7 +9,7 @@
   --color-info-dark: #7d8da1;
   --color-dark: #363949;
   --color-light: rgba(132, 139, 200, 0.18);
-  --color-dark-variant: #677483;
+  --color-dark-variant: #000000;
   --color-background: #f6f6f9;
 
   --card-border-radius: 2rem;
@@ -202,6 +202,7 @@ main table tbody td {
   height: 2.8rem;
   border-bottom: 1px solid var(--color-light);
   color: var(--color-dark-variant);
+  font-weight: 400;
 }
 
 main table tbody tr:last-child td {
@@ -213,6 +214,14 @@ main .recent-orders a {
   gap: 3px;
   margin-left: 5px;
   color: var(--color-primary);
+}
+
+main .recent-orders table tbody tr:nth-child(odd) {
+  background-color: #d9d9d9;
+}
+
+main .recent-orders table tbody tr:nth-child(even) {
+  background-color: #cecece;
 }
 
 .linksOptions {
