@@ -111,9 +111,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="IdcategoriaProducto" class="control-label">Categoría</label>
-                        <select asp-for="IdcategoriaProducto" class="form-control" asp-items="ViewBag.IdcategoriaProducto">
-                            <option value="">Seleccione una categoría</option>
-                        </select>
+                        <select asp-for="IdcategoriaProducto" class="form-control" asp-items="ViewBag.IdcategoriaProducto"></select>
                         <span asp-validation-for="IdcategoriaProducto" class="text-danger"></span>
                     </div>
                     <div class="form-group">

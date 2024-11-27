@@ -134,17 +134,35 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: CategoriasProductos/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var categoriasProducto = await _context.CategoriasProductos.FindAsync(id);
-            if (categoriasProducto != null)
+            if (categoriasProducto == null)
             {
-                _context.CategoriasProductos.Remove(categoriasProducto);
+                TempData["mensaje"] = "No se encontró la categoria";
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            var productosAsociados = await _context.Productos.AnyAsync(p => p.IdcategoriaProducto == id);
+            if (productosAsociados)
+            {
+                TempData["mensaje"] = "No se puede eliminar la categoria, tiene productos asociados";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                _context.CategoriasProductos.Remove(categoriasProducto);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                TempData["mensaje"] = "No se puede eliminar la categoria";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
