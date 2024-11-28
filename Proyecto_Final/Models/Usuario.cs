@@ -13,7 +13,7 @@ public partial class Usuario
 
     public string Contraseña { get; set; } = null!;
 
-    public string Rol { get; set; } = null!;
+    public string Rol { get; set; } = "Cliente";
 
     public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
 }

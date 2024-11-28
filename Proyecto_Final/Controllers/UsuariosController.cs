@@ -55,6 +55,10 @@ namespace Proyecto_Final.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idusuario,Nombre,Correo,Contraseña,Rol")] Usuario usuario)
         {
+            if (string.IsNullOrEmpty(usuario.Rol))
+            {
+                usuario.Rol = "Cliente";
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(usuario);

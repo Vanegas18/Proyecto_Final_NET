@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Inicio de Sesión - ";
+}
+
+<head>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+</style>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="flex items-center justify-center min-h-screen w-full">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Iniciar Sesión</h2>
+        <form>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700">Correo Electrónico</label>
+                <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="ejemplo@correo.com">
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700">Contraseña</label>
+                <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="********">
+            </div>
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="remember" class="ml-2 block text-gray-900">Recuérdame</label>
+                </div>
+                <a class="text-blue-600 hover:underline">¿Olvidaste tu contraseña?</a>
+            </div>
+            <button asp-controller="Home" asp-action="Index" type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Iniciar Sesión</button>
+        </form>
+        <p class="text-center text-gray-600 mt-6">¿No tienes una cuenta? <a asp-controller="Home" asp-action="Registro" class="text-blue-600 hover:underline">Regístrate</a></p>
+        <p class="text-center text-gray-600 mt-6"><a asp-controller="Home" asp-action="Index" class="text-blue-600 hover:underline">Volver</a></p>
+    </div>
+  </div>
+</body>
