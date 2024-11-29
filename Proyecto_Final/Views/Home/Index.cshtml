@@ -4,6 +4,7 @@
 
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="container" style="margin: 0; padding: 0;">
@@ -15,8 +16,16 @@
             <a href="#sobrenosotros">Sobre Nosotros</a>
         </div>
         <div class="login">
-            <a id="signup" class="signup" asp-controller="Home" asp-action="Login">Inicia Sesión</a>
-            <a asp-action="Dashboard">Dashboard</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="javascript:void(0);" class="signup" id="signup" onclick="logout()">Cerrar Sesión</a>
+                @if (User.IsInRole("Administrador") || User.IsInRole("Gerente"))
+                {
+                    <a asp-controller="Home" asp-action="Dashboard">Dashboard</a>
+                }
+            } else {
+                <a id="signup" class="signup" asp-controller="Usuarios" asp-action="Login">Inicia Sesión</a>
+            }
         </div>
     </nav>
 
@@ -172,3 +181,21 @@
             </div>
         </footer>
 </body>
+
+<script>
+        function logout() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, cerrar sesión'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("Logout", "Usuarios")';
+                }
+            })
+        }
+    </script>

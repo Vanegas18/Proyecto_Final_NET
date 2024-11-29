@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Final.Models;
+using System.Security.Cryptography;
+using System.Text;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Proyecto_Final.Controllers
 {
@@ -17,6 +22,87 @@ namespace Proyecto_Final.Controllers
         {
             _context = context;
         }
+
+        // GET: Usuarios/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: Usuarios/Login
+        [HttpPost] // Este atributo indica que el método es un punto de entrada de una solicitud POST
+        [ValidateAntiForgeryToken] // Este atributo previene ataques CSRF
+        public async Task<IActionResult> Login(String correo, String contraseña)
+        {
+            if (string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(contraseña))
+            {
+                ModelState.AddModelError(string.Empty, "Correo y contraseña son requeridos.");
+                return View();
+            }
+
+            var hashedPassword = HashPassword(contraseña);
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.Correo == correo && u.Contraseña == hashedPassword);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError(string.Empty, "Correo o contraseña incorrectos.");
+                return View();
+            }
+
+            var claims = new List<Claim>
+            {
+                // Las claims son los datos que se almacenan en la cookie de autenticación
+                new Claim(ClaimTypes.Name, usuario.Nombre),
+                new Claim(ClaimTypes.Email, usuario.Correo),
+                new Claim(ClaimTypes.Role, usuario.Rol)
+            };
+            // Básicamente, esta es la información que se almacena en la cookie de autenticación
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            // Creamos un objeto ClaimsIdentity con las claims y el esquema de autenticación
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            // Creamos la cookie de autenticación con el esquema de autenticación y el objeto ClaimsPrincipal
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // GET: Usuarios/Registro
+        public IActionResult Registro()
+        {
+            return View();
+        }
+
+        // POST: Usuarios/Registro
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Registro([Bind("Nombre,Correo,Contraseña")] Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                usuario.Rol = "Cliente";
+                usuario.Contraseña = HashPassword(usuario.Contraseña);
+                _context.Add(usuario);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Login));
+            }
+            return View(usuario);
+        }
+
+        // GET: Usuarios/Logout
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+        }
+
+        // GET: Usuarios/AccesoDenegado
+        public IActionResult AccesoDenegado()
+        {
+            return View();
+        }
+
 
         // GET: Usuarios
         public async Task<IActionResult> Index()
@@ -61,6 +147,7 @@ namespace Proyecto_Final.Controllers
             }
             if (ModelState.IsValid)
             {
+                usuario.Contraseña = HashPassword(usuario.Contraseña);
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -100,6 +187,7 @@ namespace Proyecto_Final.Controllers
             {
                 try
                 {
+                    usuario.Contraseña = HashPassword(usuario.Contraseña);
                     _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }
@@ -155,6 +243,15 @@ namespace Proyecto_Final.Controllers
         private bool UsuarioExists(int id)
         {
             return _context.Usuarios.Any(e => e.Idusuario == id);
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
         }
     }
 }
