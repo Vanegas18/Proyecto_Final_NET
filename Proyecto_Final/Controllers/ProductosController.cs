@@ -68,7 +68,6 @@ namespace Proyecto_Final.Controllers
                 {
                     Console.WriteLine(modelError.ErrorMessage);
                 }
-
             }
 
             if (ModelState.IsValid)

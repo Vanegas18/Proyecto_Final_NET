@@ -40,7 +40,7 @@ namespace Proyecto_Final.Controllers
                 return View();
             }
 
-            var hashedPassword = HashPassword(contraseña);
+            var hashedPassword = HashPassword(contraseña); // Hashear la contraseña
             var usuario = await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Correo == correo && u.Contraseña == hashedPassword);
 
@@ -50,20 +50,19 @@ namespace Proyecto_Final.Controllers
                 return View();
             }
 
+            // Crear las claims para la autenticación
             var claims = new List<Claim>
             {
-                // Las claims son los datos que se almacenan en la cookie de autenticación
                 new Claim(ClaimTypes.Name, usuario.Nombre),
                 new Claim(ClaimTypes.Email, usuario.Correo),
                 new Claim(ClaimTypes.Role, usuario.Rol)
             };
-            // Básicamente, esta es la información que se almacena en la cookie de autenticación
 
+            // Crear el objeto ClaimsIdentity con las claims y el esquema de autenticación
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            // Creamos un objeto ClaimsIdentity con las claims y el esquema de autenticación
 
+            // Crear la cookie de autenticación con el esquema de autenticación y el objeto ClaimsPrincipal
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-            // Creamos la cookie de autenticación con el esquema de autenticación y el objeto ClaimsPrincipal
 
             return RedirectToAction("Index", "Home");
         }
@@ -81,8 +80,8 @@ namespace Proyecto_Final.Controllers
         {
             if (ModelState.IsValid)
             {
-                usuario.Rol = "Cliente";
-                usuario.Contraseña = HashPassword(usuario.Contraseña);
+                usuario.Rol = "Cliente"; // Asignar el rol por defecto
+                usuario.Contraseña = HashPassword(usuario.Contraseña); // Hashear la contraseña
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Login));
@@ -93,7 +92,7 @@ namespace Proyecto_Final.Controllers
         // GET: Usuarios/Logout
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); // Cerrar sesión
             return RedirectToAction("Index", "Home");
         }
 
@@ -102,7 +101,6 @@ namespace Proyecto_Final.Controllers
         {
             return View();
         }
-
 
         // GET: Usuarios
         public async Task<IActionResult> Index()
@@ -135,19 +133,17 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idusuario,Nombre,Correo,Contraseña,Rol")] Usuario usuario)
         {
             if (string.IsNullOrEmpty(usuario.Rol))
             {
-                usuario.Rol = "Cliente";
+                usuario.Rol = "Cliente"; // Asignar el rol por defecto si no se proporciona
             }
             if (ModelState.IsValid)
             {
-                usuario.Contraseña = HashPassword(usuario.Contraseña);
+                usuario.Contraseña = HashPassword(usuario.Contraseña); // Hashear la contraseña
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -172,8 +168,6 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: Usuarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Idusuario,Nombre,Correo,Contraseña,Rol")] Usuario usuario)
@@ -187,7 +181,7 @@ namespace Proyecto_Final.Controllers
             {
                 try
                 {
-                    usuario.Contraseña = HashPassword(usuario.Contraseña);
+                    usuario.Contraseña = HashPassword(usuario.Contraseña); // Hashear la contraseña
                     _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }
@@ -245,6 +239,7 @@ namespace Proyecto_Final.Controllers
             return _context.Usuarios.Any(e => e.Idusuario == id);
         }
 
+        // Método para hashear la contraseña usando SHA256
         private string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())

@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Proyecto_Final.Models;
-
-public partial class Usuario
+namespace Proyecto_Final.Models
 {
-    public int Idusuario { get; set; }
+    public partial class Usuario
+    {
+        // Propiedad que representa el ID del usuario
+        public int Idusuario { get; set; }
 
-    public string Nombre { get; set; } = null!;
+        // Propiedad que representa el nombre del usuario
+        public string Nombre { get; set; } = null!;
 
-    public string Correo { get; set; } = null!;
+        // Propiedad que representa el correo del usuario
+        public string Correo { get; set; } = null!;
 
-    public string Contraseña { get; set; } = null!;
+        // Propiedad que representa la contraseña del usuario
+        public string Contraseña { get; set; } = null!;
 
-    public string Rol { get; set; } = "Cliente";
+        // Propiedad que representa el rol del usuario, por defecto es "Cliente"
+        public string Rol { get; set; } = "Cliente";
 
-    public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
+        // Colección que representa las ventas asociadas al usuario
+        public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
+    }
 }

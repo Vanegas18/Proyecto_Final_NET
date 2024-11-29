@@ -18,18 +18,16 @@
         background-color: #cecece;
     }
 </style>
+
 <!-- Contenido -->
 <body>
     <div class="container">
         <!-- Navegación -->
         <nav>
             <a asp-controller="Home" asp-action="Index" class="logo">BuildMart</a>
-            <div class="links">
-                <a asp-controller="Home" asp-action="Index">Inicio</a>
-            </div>
             <div class="login">
                 <button type="button" class="btn btn-dark">
-                    <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Cerrar Sesión</a>
+                    <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Inicio</a>
                 </button>
             </div>
         </nav>
@@ -97,8 +95,8 @@
 </form>
 
 <script>
-    // Función para confirmar la eliminación de un producto
-    function confirmDelete(id){
+    // Función para confirmar la eliminación de una categoría
+    function confirmDelete(id) {
         Swal.fire({
             title: '¿Estás seguro de que deseas eliminar esta Categoría?',
             text: "¡No podrás revertir esto!",
@@ -107,7 +105,7 @@
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: '¡Sí, elimínalo!'
-        }).then((result)=>{
+        }).then((result) => {
             if (result.isConfirmed) {
                 // Crear formulario
                 var form = document.createElement('form');
@@ -132,7 +130,7 @@
         })
     }
 
-    // Mostrar mensaje de error
+    // Mostrar mensaje de error si existe
     @if (TempData["mensaje"] != null)
     {
         <text>
@@ -143,6 +141,7 @@
             });
         </text>
     }
+
     // Inicializar DataTable
     new DataTable('#example', {
         dom: '',

@@ -90,17 +90,23 @@ nav .login #signup {
 }
 
 .fa-dash {
-  font-size: 50px;
+  font-size: 40px;
   color: black;
   margin-bottom: 10px;
 }
 
 .section {
-  background-color: #f4f4f4;
+  margin-left: 10px;
+  background-color: white;
   border-radius: 5px;
   padding: 1rem;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 16px 16px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.section:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .section h2 {
@@ -261,7 +267,11 @@ td {
   font-weight: bold;
 }
 
-.stock-alto{
+.stock-alto {
   color: #007aff;
   font-weight: bold;
+}
+
+.linksOptionsUser{
+  margin-left: 480px;
 }

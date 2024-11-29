@@ -21,6 +21,7 @@ namespace Proyecto_Final.Controllers
         // GET: CategoriasProductos
         public async Task<IActionResult> Index()
         {
+            // Devuelve una lista de todas las categorías de productos
             return View(await _context.CategoriasProductos.ToListAsync());
         }
 
@@ -32,6 +33,7 @@ namespace Proyecto_Final.Controllers
                 return NotFound();
             }
 
+            // Busca la categoría de producto por ID
             var categoriasProducto = await _context.CategoriasProductos
                 .FirstOrDefaultAsync(m => m.IdcategoriaProducto == id);
             if (categoriasProducto == null)
@@ -45,18 +47,18 @@ namespace Proyecto_Final.Controllers
         // GET: CategoriasProductos/Create
         public IActionResult Create()
         {
+            // Devuelve la vista para crear una nueva categoría de producto
             return View();
         }
 
         // POST: CategoriasProductos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdcategoriaProducto,Nombre,Descripcion")] CategoriasProducto categoriasProducto)
         {
             if (ModelState.IsValid)
             {
+                // Añade la nueva categoría de producto al contexto y guarda los cambios
                 _context.Add(categoriasProducto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -72,6 +74,7 @@ namespace Proyecto_Final.Controllers
                 return NotFound();
             }
 
+            // Busca la categoría de producto por ID para editarla
             var categoriasProducto = await _context.CategoriasProductos.FindAsync(id);
             if (categoriasProducto == null)
             {
@@ -81,8 +84,6 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: CategoriasProductos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdcategoriaProducto,Nombre,Descripcion")] CategoriasProducto categoriasProducto)
@@ -96,6 +97,7 @@ namespace Proyecto_Final.Controllers
             {
                 try
                 {
+                    // Actualiza la categoría de producto en el contexto y guarda los cambios
                     _context.Update(categoriasProducto);
                     await _context.SaveChangesAsync();
                 }
@@ -123,6 +125,7 @@ namespace Proyecto_Final.Controllers
                 return NotFound();
             }
 
+            // Busca la categoría de producto por ID para eliminarla
             var categoriasProducto = await _context.CategoriasProductos
                 .FirstOrDefaultAsync(m => m.IdcategoriaProducto == id);
             if (categoriasProducto == null)
@@ -145,6 +148,7 @@ namespace Proyecto_Final.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            // Verifica si hay productos asociados a la categoría antes de eliminarla
             var productosAsociados = await _context.Productos.AnyAsync(p => p.IdcategoriaProducto == id);
             if (productosAsociados)
             {
@@ -154,6 +158,7 @@ namespace Proyecto_Final.Controllers
 
             try
             {
+                // Elimina la categoría de producto del contexto y guarda los cambios
                 _context.CategoriasProductos.Remove(categoriasProducto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -168,6 +173,7 @@ namespace Proyecto_Final.Controllers
 
         private bool CategoriasProductoExists(int id)
         {
+            // Verifica si la categoría de producto existe en el contexto
             return _context.CategoriasProductos.Any(e => e.IdcategoriaProducto == id);
         }
     }

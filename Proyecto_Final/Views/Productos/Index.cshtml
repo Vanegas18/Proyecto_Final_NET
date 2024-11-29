@@ -15,12 +15,9 @@
         <!-- Navegación -->
         <nav>
             <a asp-controller="Home" asp-action="Index" class="logo">BuildMart</a>
-            <div class="links">
-                <a asp-controller="Home" asp-action="Index">Inicio</a>
-            </div>
             <div class="login">
                 <button type="button" class="btn btn-dark">
-                    <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Cerrar Sesión</a>
+                    <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Inicio</a>
                 </button>
             </div>
         </nav>
@@ -124,6 +121,7 @@
             }
         })
     }
+
     // Inicializar DataTable
     new DataTable('#example', {
         dom: '',

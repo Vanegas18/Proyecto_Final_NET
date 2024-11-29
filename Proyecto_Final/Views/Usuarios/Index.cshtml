@@ -25,9 +25,9 @@
         <main class="mainTables">
             <div class="recent-orders">
                 <h1 style="text-align: center;">GESTIÓN DE USUARIOS</h1>
-                <div class="linksOptions">
+                <div class="linksOptions linksOptionsUser">
                     <button type="button" class="btn btn-primary">
-                        <a asp-action="Create" style="color: white;">Crear Nuevo Usuario</a>
+                        <a class="btnNuevoUsuario" asp-action="Create" style="color: white;">Agregar Nuevo Usuario</a>
                     </button>
                     <button type="button" class="btn btn-primary">
                         <a asp-controller="Home" asp-action="Dashboard" style="color: white;">Volver</a>
@@ -38,7 +38,7 @@
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.Nombre)</th>
                             <th>@Html.DisplayNameFor(model => model.Correo)</th>
-                            <th>@Html.DisplayNameFor(model => model.Contraseña)</th>
+                            <th>Contraseña</th>
                             <th>@Html.DisplayNameFor(model => model.Rol)</th>
                             <th>Acciones</th>
                         </tr>
@@ -49,7 +49,7 @@
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Correo)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Contraseña)</td>
+                                <td>********</td>
                                 <td>@Html.DisplayFor(modelItem => item.Rol)</td>
                                 <td>
                                     <button type="button" class="btn btn-secondary">
@@ -110,7 +110,7 @@
                     },
                     {
                         extend: 'excel',
-                        text: '<i class="fa-solid fa-download"> excel </i>',
+                        text: '<i class="fa-solid fa-file-excel"></i>',
                         className: 'botonExcel btn',
                         exportOptions: {
                             columns: [0, 1, 2, 3] // Excluye la última columna
@@ -118,7 +118,7 @@
                     },
                     {
                         extend: 'pdf',
-                        text: `<i class="fa-solid fa-download"> <br> <br> pdf </i>`,
+                        text: `<i class="fa-solid fa-file-pdf"></i>`,
                         className: 'botonPdf btn',
                         exportOptions: {
                             columns: [0, 1, 2, 3] // Excluye la última columna
