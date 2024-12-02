@@ -8,7 +8,6 @@ public partial class Compra
     public int Idcompra { get; set; }
 
     public DateTime Fecha { get; set; }
-
     public int Idproveedor { get; set; }
 
     public decimal Total { get; set; }
