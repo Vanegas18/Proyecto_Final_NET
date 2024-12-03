@@ -25,8 +25,8 @@
         <main class="mainTables">
             <div class="recent-orders">
                 <h1 style="text-align: center;">GESTIÓN DE PROVEEDORES</h1>
-                <div class="linksOptions">
-                    <button type="button" class="btn btn-primary">
+                <div class="linksOptions" style="display:flex ">
+                    <button type="button" class="btn btn-primary" >
                         <a asp-action="Create" style="color: white;">Registrar Proveedor</a>
                     </button>
                     <button type="button" class="btn btn-primary">
@@ -145,7 +145,7 @@
                     },
                     {
                         extend: 'pdf',
-                        text: `<i class="fa-solid fa-download"> <br> <br> pdf </i>`,
+                        text: `<i class="fa-solid fa-download"> pdf </i>`,
                         className: 'botonPdf btn',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4] // Excluye la última columna
