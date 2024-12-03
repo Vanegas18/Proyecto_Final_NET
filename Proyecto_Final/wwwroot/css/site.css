@@ -613,3 +613,117 @@ footer .right p {
     font-size: 13px;
   }
 }
+
+
+/*botones de acciones de compras y ventas*/
+
+
+
+#btnEliminar {
+    border-color: black;
+    color: white;
+    margin-right: 12px; /* Espacio entre botones */
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    #btnEliminar:hover {
+        border-color: gray;
+        transform: scale(1.1); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }
+
+#botones {
+    border-color: black;
+    color: white;
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    #botones:hover {
+        border-color: darkslategray;
+        transform: scale(1.1); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }
+
+#botonesAcciones {
+    background-color: gray;
+    border-color: black;
+    color: white;
+    margin-right: 12px; /* Espacio entre botones */
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    #botonesAcciones:hover {
+        border-color: gray;
+        transform: scale(1.1); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }
+
+.botonCopiar {
+    background-color: gray;
+    color: white;
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    .botonCopiar:hover {
+        border-color: gray;
+        transform: scale(1.1); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }
+
+.botonCsv {
+    background-color: gray;
+    color: white;
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    .botonCsv:hover {
+        border-color: gray;
+        transform: scale(1.1); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }
+
+.botonExcel {
+    background-color: gray;
+    color: white;
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    .botonExcel:hover {
+        border-color: gray;
+        transform: scale(1.1); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }
+
+.botonPdf {
+    background-color: gray;
+    color: white;
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    .botonPdf:hover {
+        border-color: gray;
+        transform: scale(1.1); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }
+
+.botonPrint {
+    background-color: gray;
+    color: white;
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    .botonPrint:hover {
+        border-color: gray;
+        transform: scale(1.1); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }
+
+.botonColvis {
+    transition: transform 0.60s ease, box-shadow 0.1s ease; /* Animación suave */
+}
+
+    .botonColvis:hover {
+        border-color: gray;
+        transform: scale(1.0); /* Aumenta el tamaño al 110% */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra para más énfasis */
+    }

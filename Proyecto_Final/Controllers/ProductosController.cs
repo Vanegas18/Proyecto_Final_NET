@@ -153,40 +153,40 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: Productos/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            // Busca un producto por su id y en caso de no encontrarlo, muestra un mensaje de error
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> DeleteConfirmed(int id)
             {
-                TempData["Error"] = "No se puede eliminar el producto, no se encontró";
+                // Busca un producto por su id y en caso de no encontrarlo, muestra un mensaje de error
+                var producto = await _context.Productos.FindAsync(id);
+                if (producto == null)
+                {
+                    TempData["Error"] = "No se puede eliminar el producto, no se encontró";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                // Verifica si el producto está siendo utilizado en alguna venta y en caso de estarlo, muestra un mensaje de error
+                var ventasAsociadas = await _context.DetalleVentas.AnyAsync(dv => dv.Idproducto == id);
+                if (ventasAsociadas)
+                {
+                    TempData["Error"] = "No se puede eliminar el producto, está siendo utilizado en una venta";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                // Hace el control de errores al eliminar un producto
+                try
+                {
+                    _context.Productos.Remove(producto);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException)
+                {
+                    TempData["Error"] = "No se puede eliminar el producto.";
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-
-            // Verifica si el producto está siendo utilizado en alguna venta y en caso de estarlo, muestra un mensaje de error
-            var ventasAsociadas = await _context.DetalleVentas.AnyAsync(dv => dv.Idproducto == id);
-            if (ventasAsociadas)
-            {
-                TempData["Error"] = "No se puede eliminar el producto, está siendo utilizado en una venta";
-                return RedirectToAction(nameof(Index));
-            }
-
-            // Hace el control de errores al eliminar un producto
-            try
-            {
-                _context.Productos.Remove(producto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            catch (DbUpdateException)
-            {
-                TempData["Error"] = "No se puede eliminar el producto.";
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool ProductoExists(int id)
         {

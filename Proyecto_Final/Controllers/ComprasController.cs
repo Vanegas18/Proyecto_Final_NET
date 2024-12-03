@@ -149,9 +149,9 @@ namespace Proyecto_Final.Controllers
             if (compra != null)
             {
                 _context.Compras.Remove(compra);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
