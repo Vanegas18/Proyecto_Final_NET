@@ -4,29 +4,33 @@
     ViewData["Title"] = "Proveedores - ";
 }
 
+<!-- Estilos -->
 <head>
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
 </head>
 
+<!-- Contenido -->
 <body>
     <div class="container">
+
+        <!-- Navegación -->
         <nav>
-            <a href="#" class="logo">BuildMart</a>
-            <div class="links">
-                <a asp-controller="Home" asp-action="Dashboard">Inicio</a>
-            </div>
+            <a asp-controller="Home" asp-action="Index" class="logo">BuildMart</a>
             <div class="login">
                 <button type="button" class="btn btn-dark">
-                    <a asp-controller="Home" asp-action="Dashboard" class="signup" style="color: white;">Cerrar Sesión</a>
+                    <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Inicio</a>
                 </button>
             </div>
         </nav>
 
+        <!-- Tabla -->
         <main class="mainTables">
             <div class="recent-orders">
+                <!-- Título -->
                 <h1 style="text-align: center;">GESTIÓN DE PROVEEDORES</h1>
-                <div class="linksOptions" style="display:flex ">
-                    <button type="button" class="btn btn-primary" >
+                <!-- Opciones -->
+                <div class="linksOptions">
+                    <button type="button" class="btn btn-primary">
                         <a asp-action="Create" style="color: white;">Registrar Proveedor</a>
                     </button>
                     <button type="button" class="btn btn-primary">
@@ -37,53 +41,33 @@
                     </button>
                 </div>
                 <table class="table tablaProveedores" id="example">
+                    <!-- Titulo de las tablas -->
                     <thead>
                         <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Nombre)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Direccion)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Telefono)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Correo)
-                            </th>
-                            <th>
-                                Categoría
-                            </th>
-                            <th>
-                                Acciones
-                            </th>
+                            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                            <th>@Html.DisplayNameFor(model => model.Direccion)</th>
+                            <th>@Html.DisplayNameFor(model => model.Telefono)</th>
+                            <th>@Html.DisplayNameFor(model => model.Correo)</th>
+                            <th>Categoría</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
+                    <!-- Contenido de las tablas -->
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Nombre)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Direccion)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Telefono)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Correo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IdcategoriaProveedorNavigation.Nombre)
-                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Correo)</td>
+                                <td>@Html.DisplayFor(modelItem => item.IdcategoriaProveedorNavigation.Nombre)</td>
                                 <td>
                                     <button type="button" class="btn btn-secondary">
                                         <a asp-action="Edit" asp-route-id="@item.Idproveedor" style="color: white;">Editar</a>
                                     </button>
                                     <button type="button" class="btn btn-danger">
-                                        <a asp-action="Delete" asp-route-id="@item.Idproveedor" style="color: white;">Eliminar</a>
+                                        <a onclick="confirmDelete(@item.Idproveedor)" style="color: white;">Eliminar</a>
                                     </button>
                                     <button type="button" class="btn btn-secondary">
                                         <a asp-action="Details" asp-route-id="@item.Idproveedor" style="color: white;">Detalles</a>
@@ -98,11 +82,50 @@
     </div>
 </body>
 
+<!-- Formulario oculto para el token de verificación -->
+<form id="deleteForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+
 <script>
-    // DataTable
+    // Función para confirmar la eliminación de un proveedor
+    function confirmDelete(id) {
+        Swal.fire({
+            title: '¿Estás seguro de que deseas eliminar este proveedor?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, elimínalo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Crear formulario
+                var form = document.createElement('form');
+                form.method = 'post';
+                form.action = '/Proveedores/DeleteConfirmed';
+
+                // Crear input
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.setAttribute('name', 'id');
+                input.setAttribute('value', id);
+                form.appendChild(input);
+
+                // Token de verificación
+                var token = document.querySelector('#deleteForm input[name="__RequestVerificationToken"]').cloneNode(true);
+                form.appendChild(token);
+
+                // Enviar formulario
+                document.body.appendChild(form);
+                form.submit();
+            }
+        })
+    }
+
+    // Inicializar DataTable
     new DataTable('#example', {
         dom: '',
-
         // Modificar el idioma de la tabla
         language: {
             search: "Buscar:",
@@ -137,7 +160,7 @@
                     },
                     {
                         extend: 'excel',
-                        text: '<i class="fa-solid fa-download"> excel </i>',
+                        text: '<i class="fa-solid fa-file-excel"></i>',
                         className: 'botonExcel btn',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4] // Excluye la última columna
@@ -145,7 +168,7 @@
                     },
                     {
                         extend: 'pdf',
-                        text: `<i class="fa-solid fa-download"> pdf </i>`,
+                        text: `<i class="fa-solid fa-file-pdf"></i>`,
                         className: 'botonPdf btn',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4] // Excluye la última columna
@@ -183,7 +206,7 @@
             }
         },
         scrollX: true,
-        initComplete: function(json, settings) {
+        initComplete: function (json, settings) {
             // Eliminar clase por defecto y añadir clase personalizada
             $(".dt-buttons").removeClass("dt-buttons");
             $(".dt-button").addClass("botones");

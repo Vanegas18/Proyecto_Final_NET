@@ -4,45 +4,123 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<!-- Estilos -->
+<head>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+</head>
+
+<!-- Estilos en el mismo archivo -->
+<style>
+    h1 {
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    hr {
+        width: 50%;
+        margin-left: 330px;
+        border: 1px solid #000;
+    }
+
+    .formEdit{
+        width: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    .control-label{
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-right: 20px;
+    }
+
+    .form-group{
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        font-weight: 500;
+        margin-left: 14px;
+    }
+
+    .formEdit dl {
+        width: 100%;
+        border: 1px solid black;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        background-color: white; /* Asegúrate de que el fondo no sea transparente */
+    }
+
+</style>
+
+<!-- Contenido -->
+<body>
+    <div class="container">
+        <!-- Navegación -->
+        <nav>
+            <a asp-controller="Home" asp-action="Index" class="logo">BuildMart</a>
+            <div class="links">
+                <a asp-controller="Home" asp-action="Dashboard">Inicio</a>
+            </div>
+            <div class="login">
+                <button type="button" class="btn btn-dark">
+                    <a asp-controller="Home" asp-action="Dashboard" class="signup" style="color: white;">Cerrar Sesión</a>
+                </button>
+            </div>
+        </nav>
+        <!-- Título -->
+        <h1 style="text-align: center;">Detalles del Proveedor</h1>
+        <hr />
+        <!-- Tablas -->
+        <div class="formEdit">
+            <dl class="row">
+                <dt class="col-sm-2 control-label">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+                <dt class="col-sm-2 control-label">
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.Direccion)
+                </dd>
+                <dt class="col-sm-2 control-label">
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.Telefono)
+                </dd>
+                <dt class="col-sm-2 control-label">
+                    @Html.DisplayNameFor(model => model.Correo)
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @Html.DisplayFor(model => model.Correo)
+                </dd>
+                <dt class="col-sm-2 control-label">
+                    Categoría
+                </dt>
+                <dd class="col-sm-10 form-control">
+                    @ViewData["NombreCategoria"]
+                </dd>
+                <dd>
+                    <button type="button" class="btn btn-primary" style="margin-top: 10px;">
+                        <a asp-action="Edit" asp-route-id="@Model?.Idproveedor" style="color: white; text-decoration: none;">Editar</a>
+                    </button>
+                    <button type="button" class="btn btn-dark" style="margin-top: 10px;">
+                        <a asp-action="Index" style="color: white; text-decoration: none;">Volver a la lista</a>
+                    </button>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</body>
 
 <div>
-    <h4>Proveedore</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Direccion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Direccion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Correo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Correo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdcategoriaProveedorNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdcategoriaProveedorNavigation.IdcategoriaProveedor)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Idproveedor">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
