@@ -115,7 +115,7 @@
                         <span asp-validation-for="IdcategoriaProducto" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                        <input type="submit" onclick="event.preventDefault(); mostrarMensaje()" value="Guardar" class="btn btn-primary" />
                         <button type="button" class="btn btn-dark">
                             <a asp-action="Index" style="color: white; text-decoration: none;">Cancelar</a>
                         </button>
@@ -126,6 +126,19 @@
     </div>
 </body>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<!-- Scripts -->
+<script>
+    // Función para que al editar un producto, se muestre un mensaje de confirmación con SweetAlert
+    function mostrarMensaje() {
+        Swal.fire({
+            title: '¡Producto editado!',
+            text: 'El producto ha sido editado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
+    }
+</script>

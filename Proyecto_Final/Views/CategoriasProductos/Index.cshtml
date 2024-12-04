@@ -131,13 +131,22 @@
     }
 
     // Mostrar mensaje de error si existe
-    @if (TempData["mensaje"] != null)
+    @if (TempData["Error"] != null)
     {
         <text>
             Swal.fire({
                 icon: 'error',
                 title: '¡Error!',
-                text: '@TempData["mensaje"]'
+                text: '@TempData["Error"]'
+            });
+        </text>
+    } else if (TempData["Success"] != null)
+    {
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '@TempData["Success"]'
             });
         </text>
     }

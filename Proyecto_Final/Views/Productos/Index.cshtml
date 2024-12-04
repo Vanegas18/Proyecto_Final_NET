@@ -123,7 +123,25 @@
         })
     }
 
-    if 
+    @if (TempData["Error"] != null)
+    {
+        <text>
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: '@TempData["Error"]'
+            });
+        </text>
+    } else if (TempData["Success"] != null)
+    {
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '@TempData["Success"]'
+            });
+        </text>
+    }
 
     // Inicializar DataTable
     new DataTable('#example', {

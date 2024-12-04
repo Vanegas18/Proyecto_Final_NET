@@ -99,7 +99,7 @@
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Crear" class="btn btn-primary" />
+                        <input type="submit" onclick="event.preventDefault(); mostrarMensaje()" value="Crear" class="btn btn-primary" />
                         <button type="button" class="btn btn-dark">
                             <a asp-action="Index" style="color: white; text-decoration: none;">Cancelar</a>
                         </button>
@@ -111,8 +111,19 @@
     </div>
 </body>
 
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<!-- Scripts -->
+<script>
+    // Función para que al crear una nueva categoria, se muestre un mensaje de confirmación con SweetAlert
+    function mostrarMensaje() {
+        Swal.fire({
+            title: '¡Categoría creada!',
+            text: 'La categoría ha sido creada exitosamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
+    }
+</script>
