@@ -141,17 +141,38 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: Proveedores/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Busca un proveedor por su id y en caso de no encontrarlo, muestra un mensaje de error
             var proveedore = await _context.Proveedores.FindAsync(id);
-            if (proveedore != null)
+            if (proveedore == null)
             {
-                _context.Proveedores.Remove(proveedore);
+                TempData["Error"] = "No se puede eliminar el proveedor, no se encontró";
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            // Verifica si el proveedor está siendo utilizado en alguna compra y en caso de estarlo, muestra un mensaje de error
+            var comprasAsociadas = await _context.Compras.AnyAsync(dc => dc.Idproveedor == id);
+            if (comprasAsociadas)
+            {
+                TempData["Error"] = "No se puede eliminar el proveedor, está siendo utilizado en una compra";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Hace el control de errores al eliminar un proveedor
+            try
+            {
+                _context.Proveedores.Remove(proveedore);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                TempData["Error"] = "No se puede eliminar el proveedor.";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

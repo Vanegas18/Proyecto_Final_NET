@@ -134,17 +134,38 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: CategoriasProveedores/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Busca una categoría de proveedor por su id y en caso de no encontrarla, muestra un mensaje de error
             var categoriasProveedore = await _context.CategoriasProveedores.FindAsync(id);
-            if (categoriasProveedore != null)
+            if (categoriasProveedore == null)
             {
-                _context.CategoriasProveedores.Remove(categoriasProveedore);
+                TempData["Error"] = "No se puede eliminar la categoría de proveedor, no se encontró";
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            // Verifica si la categoría de proveedor está siendo utilizada en alguna relación y en caso de estarlo, muestra un mensaje de error
+            var relacionesAsociadas = await _context.Proveedores.AnyAsync(rc => rc.IdcategoriaProveedor == id);
+            if (relacionesAsociadas)
+            {
+                TempData["Error"] = "No se puede eliminar la categoría de proveedor, está siendo utilizada en una relación";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Hace el control de errores al eliminar una categoría de proveedor
+            try
+            {
+                _context.CategoriasProveedores.Remove(categoriasProveedore);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                TempData["Error"] = "No se puede eliminar la categoría de proveedor.";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

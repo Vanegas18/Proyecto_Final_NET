@@ -220,17 +220,39 @@ namespace Proyecto_Final.Controllers
         }
 
         // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Busca un usuario por su id y en caso de no encontrarlo, muestra un mensaje de error
             var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
+            if (usuario == null)
             {
-                _context.Usuarios.Remove(usuario);
+                TempData["Error"] = "No se puede eliminar el usuario, no se encontró";
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            //// Verifica si el usuario está siendo utilizado en alguna otra entidad y en caso de estarlo, muestra un mensaje de error
+            //// Puedes modificar la condición según tus necesidades
+            //var entidadesAsociadas = await _context.Ventas.AnyAsync(e => e.UsuarioId == id);
+            //if (entidadesAsociadas)
+            //{
+            //    TempData["Error"] = "No se puede eliminar el usuario, está siendo utilizado en otra entidad";
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            // Hace el control de errores al eliminar un usuario
+            try
+            {
+                _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                TempData["Error"] = "No se puede eliminar el usuario.";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
