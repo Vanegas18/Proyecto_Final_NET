@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
 
 :root {
-  --color-primary: #6c9bcf;
+  --color-primary: #1f71d0;
   --color-danger: #ff0060;
   --color-success: #1b9c85;
   --color-warning: #f7d060;
@@ -182,6 +182,10 @@ main {
   margin-left: 30px;
 }
 
+.mainTables {
+  margin-top: 30px;
+}
+
 main .recent-orders {
   margin-top: 1.3rem;
 }
@@ -230,11 +234,16 @@ main .recent-orders table tbody tr:nth-child(even) {
   background-color: #cecece;
 }
 
+.linksOptions-cat{
+  margin-left: 90px;
+}
+
 .linksOptions {
   margin-bottom: 80px;
-  margin-left: 385px;
+  margin-left: 520px;
   margin-top: 20px;
 }
+
 
 .linksOptions button {
   margin-right: 5px;
@@ -272,6 +281,53 @@ td {
   font-weight: bold;
 }
 
-.linksOptionsUser{
+.linksOptionsUser {
   margin-left: 480px;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 500;
+}
+
+/* Añadir transición al aside */
+#asideMenu {
+  /* display: none; */
+  position: absolute;
+  top: 80px; /* Ajusta según sea necesario */
+  left: 14%;
+  transform: translateX(-50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+}
+
+#asideMenu.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#asideMenu ul li {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#asideMenu ul li:hover {
+  background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón */
+  transform: translateX(10px); /* Mueve el elemento ligeramente a la derecha */
+}
+
+#asideMenu ul li.active a {
+  background-color: var(--color-primary); /* Cambia el color de fondo */
+  color: white; /* Cambia el color del texto */
+  font-weight: bold; /* Cambia el peso de la fuente */
+}
+
+#asideMenu ul li.active a i {
+  color: white; /* Cambia el color del icono */
 }
