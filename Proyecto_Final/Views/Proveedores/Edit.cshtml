@@ -60,9 +60,9 @@
         transition: transform 0.3s ease;
     }
 
-    .form-box:hover {
-        transform: scale(1.05);
-    }
+        .form-box:hover {
+            transform: scale(1.05);
+        }
 </style>
 
 <!-- Contenido -->
@@ -115,7 +115,7 @@
                         <span asp-validation-for="IdcategoriaProveedor" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                        <input type="submit" onclick="event.preventDefault(); mostrarMensaje()" value="Guardar" class="btn btn-primary" />
                         <button type="button" class="btn btn-dark">
                             <a asp-action="Index" style="color: white; text-decoration: none;">Cancelar</a>
                         </button>
@@ -126,9 +126,24 @@
     </div>
 </body>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+<!-- Scripts -->
+<script>
+    // Función para que al editar un proveedor, se muestre un mensaje de confirmación con SweetAlert
+    function mostrarMensaje() {
+        Swal.fire({
+            title: '¡Proveedor editado!',
+            text: 'El proveedor ha sido editado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
+    }
+</script>
 
 @section Scripts {
     @{

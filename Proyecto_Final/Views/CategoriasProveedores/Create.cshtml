@@ -4,10 +4,14 @@
     ViewData["Title"] = "Categorias Proveedores - ";
 }
 
+<!-- Estilos -->
 <head>
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
 </head>
 
+<!-- Estilos en el mismo archivo -->
 <style>
     h1 {
         font-size: 2.5em;
@@ -62,19 +66,22 @@
         }
 </style>
 
+<!-- Contenido -->
 <body>
     <div class="container">
+        <!-- Navegación -->
         <nav>
-            <a href="#" class="logo">BuildMart</a>
-            <div class="links">
-                <a asp-controller="Home" asp-action="Dashboard">Inicio</a>
-            </div>
+            <a asp-controller="Home" asp-action="Dashboard" class="logo">BuildMart</a>
             <div class="login">
                 <button type="button" class="btn btn-dark">
                     <a asp-controller="Home" asp-action="Dashboard" class="signup" style="color: white;">Cerrar Sesión</a>
                 </button>
             </div>
         </nav>
+
+        <!-- Aside oculto -->
+
+
         <h1>AÑADIR CATEGORÍA PROVEEDOR</h1>
         <hr>
         <div class="form-container">
@@ -92,7 +99,7 @@
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Crear" class="btn btn-primary" />
+                        <input type="submit" onclick="event.preventDefault(); mostrarMensaje()" value="Crear" class="btn btn-primary" />
                         <button type="button" class="btn btn-dark">
                             <a asp-action="Index" style="color: white; text-decoration: none;">Cancelar</a>
                         </button>
@@ -102,6 +109,24 @@
         </div>
     </div>
 </body>
+
+<!-- Scripts -->
+<script>
+    // Función para que al crear una nueva categoría de proveedor, se muestre un mensaje de confirmación con SweetAlert
+    function mostrarMensaje() {
+        Swal.fire({
+            title: '¡Categoría creada!',
+            text: 'La categoría ha sido creada exitosamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
+    }
+
+</script>
 
 @section Scripts {
     @{

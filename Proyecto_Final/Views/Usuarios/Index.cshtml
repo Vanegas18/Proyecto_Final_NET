@@ -4,17 +4,30 @@
     ViewData["Title"] = "Usuarios - ";
 }
 
+<!-- Estilos -->
 <head>
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <style>
+            #asideMenu {
+            display: none; /* Inicialmente oculto */
+
+        }
+        #asideMenu.show {
+            display: block; /* Mostrar cuando se agrega la clase 'show' */
+            }
+    </style>
 </head>
 
+<!-- Contenido -->
 <body>
     <div class="container">
+        <!-- Navegación -->
         <nav>
-            <a href="#" class="logo">BuildMart</a>
-            <div class="links">
-                <a asp-controller="Home" asp-action="Dashboard">Inicio</a>
-            </div>
+            <!-- Botón para desplegar el aside -->
+            <button type="button" class="btn btn-dark" id="asideToggleBtn">Dashboard</button>
+            <a asp-controller="Home" asp-action="Dashboard" class="logo">BuildMart</a>
             <div class="login">
                 <button type="button" class="btn btn-dark">
                     <a asp-controller="Home" asp-action="Dashboard" class="signup" style="color: white;">Cerrar Sesión</a>
@@ -22,18 +35,85 @@
             </div>
         </nav>
 
+        <!-- Aside oculto -->
+        <aside id="asideMenu" class="bg-white shadow-md">
+            <ul>
+                <li class="mb-2">
+                    <a asp-controller="Home" asp-action="Dashboard" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-home mr-3"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="mb-2 active">
+                    <a asp-controller="Usuarios" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="Productos" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-box mr-3"></i>
+                        <span>Productos</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="CategoriasProductos" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-tags mr-3"></i>
+                        <span>Categorías Productos</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="Proveedores" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-truck mr-3"></i>
+                        <span>Proveedores</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="CategoriasProveedores" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-list-alt mr-3"></i>
+                        <span>Categorías Proveedores</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="Ventas" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-shopping-cart mr-3"></i>
+                        <span>Ventas</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="DetalleVentas" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-receipt mr-3"></i>
+                        <span>Detalle Ventas</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="Compras" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-shopping-bag mr-3"></i>
+                        <span>Compras</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="DetalleCompras" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-file-invoice-dollar mr-3"></i>
+                        <span>Detalle Compras</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <!-- Tabla -->
         <main class="mainTables">
             <div class="recent-orders">
+                <!-- Título -->
                 <h1 style="text-align: center;">GESTIÓN DE USUARIOS</h1>
+                <!-- Opciones -->
                 <div class="linksOptions linksOptionsUser">
                     <button type="button" class="btn btn-primary">
                         <a class="btnNuevoUsuario" asp-action="Create" style="color: white;">Agregar Nuevo Usuario</a>
                     </button>
-                    <button type="button" class="btn btn-primary">
-                        <a asp-controller="Home" asp-action="Dashboard" style="color: white;">Volver</a>
-                    </button>
+
                 </div>
                 <table class="table tablaUsuarios" id="example">
+                    <!-- Titulo de las tablas -->
                     <thead>
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.Nombre)</th>
@@ -43,6 +123,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
+                    <!-- Contenido de las tablas -->
                     <tbody>
                         @foreach (var item in Model)
                         {
@@ -75,7 +156,6 @@
 <form id="deleteForm" method="post" style="display:none;">
     @Html.AntiForgeryToken()
 </form>
-
 <script>
     // Función para confirmar la eliminación de un usuario
     function confirmDelete(id) {
@@ -102,15 +182,47 @@
                 form.appendChild(input);
 
                 // Token de verificación
-                var token = document.querySelector('input[name="__RequestVerificationToken"]').cloneNode(true);
+                var token = document.querySelector('#deleteForm input[name="__RequestVerificationToken"]').cloneNode(true);
                 form.appendChild(token);
 
                 // Enviar formulario
                 document.body.appendChild(form);
                 form.submit();
             }
-        });
+        })
     }
+
+    // Mostrar mensaje de error si existe
+    @if (TempData["Error"] != null)
+    {
+        <text>
+                Swal.fire({
+                    icon: 'error',
+                title: '¡Error!',
+                text: '@TempData["Error"]'
+                    });
+        </text>
+    }
+    else if (TempData["Success"] != null)
+    {
+        <text>
+                Swal.fire({
+                    icon: 'success',
+                title: '¡Éxito!',
+                text: '@TempData["Success"]'
+                    });
+        </text>
+    }
+
+        // Mostrar el aside al pasar el cursor por encima del botón
+        document.getElementById('asideToggleBtn').addEventListener('mouseover', function () {
+            document.getElementById('asideMenu').classList.add('show');
+        });
+
+    // Ocultar el aside cuando el cursor sale del aside
+    document.getElementById('asideMenu').addEventListener('mouseleave', function () {
+        document.getElementById('asideMenu').classList.remove('show');
+    });
 
     // Inicializar DataTable
     new DataTable('#example', {

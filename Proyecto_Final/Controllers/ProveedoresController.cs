@@ -47,7 +47,7 @@ namespace Proyecto_Final.Controllers
         // GET: Proveedores/Create
         public IActionResult Create()
         {
-            ViewData["IdcategoriaProveedor"] = new SelectList(_context.CategoriasProveedores, "IdcategoriaProveedor", "IdcategoriaProveedor");
+            ViewData["IdcategoriaProveedor"] = new SelectList(_context.CategoriasProveedores, "IdcategoriaProveedor", "Nombre");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace Proyecto_Final.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdcategoriaProveedor"] = new SelectList(_context.CategoriasProveedores, "IdcategoriaProveedor", "IdcategoriaProveedor", proveedore.IdcategoriaProveedor);
+            ViewData["IdcategoriaProveedor"] = new SelectList(_context.CategoriasProveedores, "IdcategoriaProveedor", "Nombre", proveedore.IdcategoriaProveedor);
             return View(proveedore);
         }
 
@@ -81,7 +81,7 @@ namespace Proyecto_Final.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdcategoriaProveedor"] = new SelectList(_context.CategoriasProveedores, "IdcategoriaProveedor", "IdcategoriaProveedor", proveedore.IdcategoriaProveedor);
+            ViewData["IdcategoriaProveedor"] = new SelectList(_context.CategoriasProveedores, "IdcategoriaProveedor", "Nombre", proveedore.IdcategoriaProveedor);
             return View(proveedore);
         }
 
@@ -117,7 +117,7 @@ namespace Proyecto_Final.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdcategoriaProveedor"] = new SelectList(_context.CategoriasProveedores, "IdcategoriaProveedor", "IdcategoriaProveedor", proveedore.IdcategoriaProveedor);
+            ViewData["IdcategoriaProveedor"] = new SelectList(_context.CategoriasProveedores, "IdcategoriaProveedor", "Nombre", proveedore.IdcategoriaProveedor);
             return View(proveedore);
         }
 
@@ -152,6 +152,11 @@ namespace Proyecto_Final.Controllers
                 TempData["Error"] = "No se puede eliminar el proveedor, no se encontró";
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                TempData["Success"] = "Proveedor eliminado correctamente";
+            }
+
 
             // Verifica si el proveedor está siendo utilizado en alguna compra y en caso de estarlo, muestra un mensaje de error
             var comprasAsociadas = await _context.Compras.AnyAsync(dc => dc.Idproveedor == id);

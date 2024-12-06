@@ -142,15 +142,18 @@ namespace Proyecto_Final.Controllers
             var categoriasProveedore = await _context.CategoriasProveedores.FindAsync(id);
             if (categoriasProveedore == null)
             {
-                TempData["Error"] = "No se puede eliminar la categoría de proveedor, no se encontró";
+                TempData["Error"] = "No se puede eliminar la categoria de proveedor, no se encontró";
                 return RedirectToAction(nameof(Index));
             }
-
+            else
+            {
+                TempData["Success"] = "Categoria del proveedor eliminado correctamente";
+            }
             // Verifica si la categoría de proveedor está siendo utilizada en alguna relación y en caso de estarlo, muestra un mensaje de error
             var relacionesAsociadas = await _context.Proveedores.AnyAsync(rc => rc.IdcategoriaProveedor == id);
             if (relacionesAsociadas)
             {
-                TempData["Error"] = "No se puede eliminar la categoría de proveedor, está siendo utilizada en una relación";
+                TempData["Error"] = "No se puede eliminar la categoria de proveedor, esta siendo utilizada en una relacion";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -163,7 +166,7 @@ namespace Proyecto_Final.Controllers
             }
             catch (DbUpdateException)
             {
-                TempData["Error"] = "No se puede eliminar la categoría de proveedor.";
+                TempData["Error"] = "No se puede eliminar la categoria de proveedor.";
             }
 
             return RedirectToAction(nameof(Index));

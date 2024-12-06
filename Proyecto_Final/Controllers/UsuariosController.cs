@@ -231,17 +231,11 @@ namespace Proyecto_Final.Controllers
                 TempData["Error"] = "No se puede eliminar el usuario, no se encontró";
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                TempData["Success"] = "Usuario eliminado correctamente";
+            }
 
-            //// Verifica si el usuario está siendo utilizado en alguna otra entidad y en caso de estarlo, muestra un mensaje de error
-            //// Puedes modificar la condición según tus necesidades
-            //var entidadesAsociadas = await _context.Ventas.AnyAsync(e => e.UsuarioId == id);
-            //if (entidadesAsociadas)
-            //{
-            //    TempData["Error"] = "No se puede eliminar el usuario, está siendo utilizado en otra entidad";
-            //    return RedirectToAction(nameof(Index));
-            //}
-
-            // Hace el control de errores al eliminar un usuario
             try
             {
                 _context.Usuarios.Remove(usuario);
