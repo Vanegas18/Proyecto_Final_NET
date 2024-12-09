@@ -1,49 +1,215 @@
 ﻿@model Proyecto_Final.Models.DetalleCompra
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Compras - ";
 }
 
-<h1>Edit</h1>
+<!-- Estilos -->
+<head>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+</head>
 
-<h4>DetalleCompra</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IddetalleCompra" />
-            <div class="form-group">
-                <label asp-for="Idcompra" class="control-label"></label>
-                <select asp-for="Idcompra" class="form-control" asp-items="ViewBag.Idcompra"></select>
-                <span asp-validation-for="Idcompra" class="text-danger"></span>
+<!-- Estilos en el mismo archivo -->
+<style>
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        margin-top: 50px;
+        margin-left: 80px;
+    }
+
+    hr {
+        width: 50%;
+        margin-left: 350px;
+        border: 1px solid #000;
+    }
+
+    .form-container {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 50px;
+        margin-top: -70px;
+    }
+
+    .control-label {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        font-weight: 500;
+    }
+
+    .text-danger {
+        color: #e74c3c;
+    }
+
+    .form-box {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .form-box:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<!-- Contenido -->
+<body>
+    <div class="container">
+        <!-- Navegación -->
+        <nav>
+            <!-- Botón para desplegar el aside -->
+            <button type="button" class="btn btn-dark" id="asideToggleBtn">Dashboard</button>
+            <a asp-controller="Home" asp-action="Index" class="logo">BuildMart</a>
+            <div class="login">
+                <button type="button" class="btn btn-dark">
+                    <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Inicio</a>
+                </button>
             </div>
-            <div class="form-group">
-                <label asp-for="Idproducto" class="control-label"></label>
-                <select asp-for="Idproducto" class="form-control" asp-items="ViewBag.Idproducto"></select>
-                <span asp-validation-for="Idproducto" class="text-danger"></span>
+        </nav>
+
+        <!-- Aside oculto -->
+        <aside id="asideMenu" class="bg-white shadow-md">
+            <ul>
+                <li class="mb-2">
+                    <a asp-controller="Home" asp-action="Dashboard" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-home mr-3"></i>
+                        <span>Inicio</span>
+                    </a>
+                <li class="mb-2">
+                    <a asp-controller="Usuarios" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="Productos" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-box mr-3"></i>
+                        <span>Productos</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="CategoriasProductos" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-tags mr-3"></i>
+                        <span>Categorías Productos</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="Proveedores" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-truck mr-3"></i>
+                        <span>Proveedores</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="CategoriasProveedores" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-list-alt mr-3"></i>
+                        <span>Categorías Proveedores</span>
+                    </a>
+                </li>
+@*                 <li class="mb-2">
+                    <a asp-controller="Ventas" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-shopping-cart mr-3"></i>
+                        <span>Ventas</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="DetalleVentas" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-receipt mr-3"></i>
+                        <span>Detalle Ventas</span>
+                    </a>
+                </li> *@
+                <li class="mb-2">
+                    <a asp-controller="Compras" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-shopping-bag mr-3"></i>
+                        <span>Compras</span>
+                    </a>
+                </li>
+                <li class="mb-2 active">
+                    <a asp-controller="DetalleCompras" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-file-invoice-dollar mr-3"></i>
+                        <span>Detalle Compras</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <!-- Título -->
+        <h1 style="text-align: center;">Editar Compra</h1>
+        <hr>
+        <!-- Formulario -->
+        <div class="row form-container">
+            <div class="col-md-4 form-box">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IddetalleCompra" />
+                    <div class="form-group">
+                        <label asp-for="Idcompra" class="control-label"></label>
+                        <select asp-for="Idcompra" class="form-control" asp-items="ViewBag.Idcompra"></select>
+                        <span asp-validation-for="Idcompra" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Idproducto" class="control-label"></label>
+                        <select asp-for="Idproducto" class="form-control" asp-items="ViewBag.Idproducto"></select>
+                        <span asp-validation-for="Idproducto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Cantidad" class="control-label"></label>
+                        <input asp-for="Cantidad" class="form-control" />
+                        <span asp-validation-for="Cantidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PrecioUnitario" class="control-label"></label>
+                        <input asp-for="PrecioUnitario" class="form-control" />
+                        <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" onclick="event.preventDefault(); mostrarMensaje()" value="Actualizar" class="btn btn-primary" />
+                        <button type="button" class="btn btn-dark">
+                            <a asp-action="Index" style="color: white; text-decoration: none;">Cancelar</a>
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Cantidad" class="control-label"></label>
-                <input asp-for="Cantidad" class="form-control" />
-                <span asp-validation-for="Cantidad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrecioUnitario" class="control-label"></label>
-                <input asp-for="PrecioUnitario" class="form-control" />
-                <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</body>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<!-- Scripts -->
+<script>
+    // Mostrar el aside al pasar el cursor por encima del botón
+    document.getElementById('asideToggleBtn').addEventListener('mouseover', function () {
+        document.getElementById('asideMenu').classList.add('show');
+    });
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    // Ocultar el aside cuando el cursor sale del aside
+    document.getElementById('asideMenu').addEventListener('mouseleave', function () {
+        document.getElementById('asideMenu').classList.remove('show');
+    });
+    // Función para que al editar un producto, se muestre un mensaje de confirmación con SweetAlert
+    function mostrarMensaje() {
+        Swal.fire({
+            title: '¡Producto editado!',
+            text: 'El producto ha sido editado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
+    }
+</script>

@@ -1,48 +1,266 @@
 ﻿@model Proyecto_Final.Models.DetalleCompra
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Compras -";
 }
 
-<h1>Details</h1>
+<!-- Estilos -->
+<head>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+</head>
 
-<div>
-    <h4>DetalleCompra</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cantidad)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecioUnitario)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrecioUnitario)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Subtotal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Subtotal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdcompraNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdcompraNavigation.Idcompra)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdproductoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdproductoNavigation.Idproducto)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IddetalleCompra">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<!-- Estilos en el mismo archivo -->
+<style>
+    h1 {
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    hr {
+        width: 50%;
+        margin-left: 330px;
+        border: 1px solid #000;
+    }
+
+    .formEdit {
+        width: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    .control-label {
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-right: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        font-weight: 500;
+        margin-left: 14px;
+    }
+
+    .formEdit dl {
+        width: 100%;
+        border: 1px solid black;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        background-color: white; /* Asegúrate de que el fondo no sea transparente */
+    }
+
+</style>
+
+<!-- Estilos en el mismo archivo -->
+<style>
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        margin-top: 50px;
+        margin-left: 80px;
+    }
+
+    hr {
+        width: 50%;
+        margin-left: 350px;
+        border: 1px solid #000;
+    }
+
+    .form-container {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 50px;
+        margin-top: -70px;
+    }
+
+    .control-label {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        font-weight: 500;
+    }
+
+    .text-danger {
+        color: #e74c3c;
+    }
+
+    .form-box {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .form-box:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+        <!-- Navegación -->
+        <nav>
+            <!-- Botón para desplegar el aside -->
+            <button type="button" class="btn btn-dark" id="asideToggleBtn">Dashboard</button>
+            <a asp-controller="Home" asp-action="Index" class="logo">BuildMart</a>
+            <div class="login">
+                <button type="button" class="btn btn-dark">
+                    <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Inicio</a>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Aside oculto -->
+        <aside id="asideMenu" class="bg-white shadow-md">
+            <ul>
+                <li class="mb-2">
+                    <a asp-controller="Home" asp-action="Dashboard" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-home mr-3"></i>
+                        <span>Inicio</span>
+                    </a>
+                <li class="mb-2">
+                    <a asp-controller="Usuarios" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="Productos" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-box mr-3"></i>
+                        <span>Productos</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="CategoriasProductos" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-tags mr-3"></i>
+                        <span>Categorías Productos</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="Proveedores" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-truck mr-3"></i>
+                        <span>Proveedores</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="CategoriasProveedores" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-list-alt mr-3"></i>
+                        <span>Categorías Proveedores</span>
+                    </a>
+                </li>
+@*                 <li class="mb-2">
+                    <a asp-controller="Ventas" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-shopping-cart mr-3"></i>
+                        <span>Ventas</span>
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a asp-controller="DetalleVentas" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-receipt mr-3"></i>
+                        <span>Detalle Ventas</span>
+                    </a>
+                </li> *@
+                <li class="mb-2">
+                    <a asp-controller="Compras" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-shopping-bag mr-3"></i>
+                        <span>Compras</span>
+                    </a>
+                </li>
+                <li class="mb-2 active">
+                    <a asp-controller="DetalleCompras" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                        <i class="fas fa-file-invoice-dollar mr-3"></i>
+                        <span>Detalle Compras</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+<!-- Contenido -->
+<body>
+    <div class="container">
+        <!-- Navegación -->
+        <nav>
+            <a href="#" class="logo">BuildMart</a>
+            <div class="login">
+                <button type="button" class="btn btn-dark">
+                    <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Inicio</a>
+                </button>
+            </div>
+        </nav>
+        <!-- Título -->
+        <h1 style="text-align: center;">Detalles de la Compra</h1>
+        <hr />
+        <!-- Tablas -->
+        <div class="formEdit">
+            <dl class="row">
+                </dd>
+                <dt class="col-sm-2">
+                    Id_Compra
+                </dt>
+                <dd class="col-sm-10" style="margin-right: 10px">
+                    @Html.DisplayFor(model => model.IdcompraNavigation.Idcompra)
+                </dd>
+                <dt class="col-sm-2">
+                    Id_Producto
+                </dt>
+                <dd class="col-sm-10" style="margin-right: 10px">
+                    @Html.DisplayFor(model => model.IdproductoNavigation.Idproducto)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Cantidad)
+                </dt>
+                <dd class="col-sm-10" style="margin-right: 10px">
+                    @Html.DisplayFor(model => model.Cantidad)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PrecioUnitario)
+                </dt>
+                <dd class="col-sm-10" style="margin-right: 10px">
+                    @Html.DisplayFor(model => model.PrecioUnitario)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Subtotal)
+                </dt>
+                <dd class="col-sm-10" style="margin-right: 10px">
+                    @Html.DisplayFor(model => model.Subtotal)
+                <dd>
+                    <button type="button" class="btn btn-primary" style="margin-top: 10px;">
+                        <a asp-action="Edit" asp-route-id="@Model?.IddetalleCompra" style="color: white; text-decoration: none;">Editar</a>
+                    </button>
+                    <button type="button" class="btn btn-dark" style="margin-top: 10px;">
+                        <a asp-action="Index" style="color: white; text-decoration: none;">Volver a la lista</a>
+                    </button>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</body>
+
+<script>
+    // Mostrar el aside al pasar el cursor por encima del botón
+    document.getElementById('asideToggleBtn').addEventListener('mouseover', function () {
+        document.getElementById('asideMenu').classList.add('show');
+    });
+
+    // Ocultar el aside cuando el cursor sale del aside
+    document.getElementById('asideMenu').addEventListener('mouseleave', function () {
+        document.getElementById('asideMenu').classList.remove('show');
+    });
+</script>

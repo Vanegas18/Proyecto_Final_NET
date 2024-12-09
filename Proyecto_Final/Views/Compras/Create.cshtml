@@ -1,46 +1,237 @@
 ﻿@model Proyecto_Final.Models.Compra
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nueva Compra -";
 }
 
-<h1>Create</h1>
+<!-- Estilos -->
+<head>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+</head>
 
-<h4>Compra</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Idproveedor" class="control-label"></label>
-                <select asp-for="Idproveedor" class ="form-control" asp-items="ViewBag.Idproveedor"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div>
-                <label asp-for="Estado" class="control-label">Estado</label>
-                <select id="Estado" name="Estado" asp-for="Estado" class="form-control">
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Completada">Completada</option>
-                    <option value="Cancelada">Cancelada</option>
-                </select>
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<!-- Navegación -->
+<nav>
+    <!-- Botón para desplegar el aside -->
+    <button type="button" class="btn btn-dark" id="asideToggleBtn">Dashboard</button>
+    <a asp-controller="Home" asp-action="Index" class="logo">BuildMart</a>
+    <div class="login">
+        <button type="button" class="btn btn-dark">
+            <a asp-controller="Home" asp-action="Index" class="signup" style="color: white;">Inicio</a>
+        </button>
     </div>
+</nav>
+
+<!-- Aside oculto -->
+<aside id="asideMenu" class="bg-white shadow-md">
+    <ul>
+        <li class="mb-2">
+            <a asp-controller="Home" asp-action="Dashboard" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-home mr-3"></i>
+                <span>Inicio</span>
+            </a>
+        <li class="mb-2">
+            <a asp-controller="Usuarios" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-users mr-3"></i>
+                <span>Usuarios</span>
+            </a>
+        </li>
+        <li class="mb-2">
+            <a asp-controller="Productos" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-box mr-3"></i>
+                <span>Productos</span>
+            </a>
+        </li>
+        <li class="mb-2">
+            <a asp-controller="CategoriasProductos" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-tags mr-3"></i>
+                <span>Categorías Productos</span>
+            </a>
+        </li>
+        <li class="mb-2">
+            <a asp-controller="Proveedores" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-truck mr-3"></i>
+                <span>Proveedores</span>
+            </a>
+        </li>
+        <li class="mb-2">
+            <a asp-controller="CategoriasProveedores" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-list-alt mr-3"></i>
+                <span>Categorías Proveedores</span>
+            </a>
+        </li>
+@*         <li class="mb-2">
+            <a asp-controller="Ventas" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-shopping-cart mr-3"></i>
+                <span>Ventas</span>
+            </a>
+        </li>
+        <li class="mb-2">
+            <a asp-controller="DetalleVentas" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-receipt mr-3"></i>
+                <span>Detalle Ventas</span>
+            </a>
+        </li> *@
+        <li class="mb-2 active">
+            <a asp-controller="Compras" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-shopping-bag mr-3"></i>
+                <span>Compras</span>
+            </a>
+        </li>
+        <li class="mb-2">
+            <a asp-controller="DetalleCompras" asp-action="Index" class="flex items-center text-gray-700 p-3 hover:bg-gray-200 rounded-md">
+                <i class="fas fa-file-invoice-dollar mr-3"></i>
+                <span>Detalle Compras</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+<div style="padding: 80px">
+
+    <h1>Registrar nueva compra</h1>
+    <hr />
+    <br /><br />
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Campo de Fecha -->
+        <div class="form-group">
+            <label asp-for="Fecha" class="control-label">Fecha: </label>
+            <input asp-for="Fecha" class="form-control" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+        <br />
+
+        <!-- Campo de Proveedor -->
+        <div class="form-group">
+            <label asp-for="Idproveedor" class="control-label">Proveedor:</label>
+            <select asp-for="Idproveedor" class="form-control" asp-items="ViewBag.Idproveedor">
+                <option value="">Seleccione un proveedor</option>
+            </select>
+            <span asp-validation-for="Idproveedor" class="text-danger"></span>
+        </div>
+        <br />
+
+        <!-- Productos ingresados -->
+        <h4>Productos:</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="productosTable">
+                <tr>
+                    <td>
+                        <select name="productos[]" class="form-control" required>
+                            @foreach (var producto in ViewData["Productos"] as List<Producto>)
+                            {
+                                <option value="@producto.Idproducto">@producto.Nombre</option>
+                            }
+                        </select>
+                    </td>
+                    <td><input type="number" name="cantidades[]" class="form-control" min="1" required /></td>
+                    <td><input type="number" name="preciosUnitarios[]" class="form-control" step="0.01" required /></td>
+                    <td><input type="text" name="subtotales[]" class="form-control" readonly /></td>
+                    <td><button type="button" class="btn btn-danger removeProduct">Eliminar</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Botón para agregar más productos -->
+        <button type="button" class="btn btn-success" id="addProduct">Agregar Producto</button>
+
+        <br /><br />
+        <div class="form-group">
+            <label>Total:</label>
+            <input type="text" id="totalCompra" class="form-control" readonly />
+        </div>
+
+        <!-- Estado de la compra -->
+        <br />
+        <div class="form-group">
+            <label asp-for="Estado" class="control-label">Estado:</label>
+            <select id="Estado" name="Estado" asp-for="Estado" class="form-control">
+                <option value="">Seleccione un estado</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Completada">Completada</option>
+                <option value="Cancelada">Cancelada</option>
+            </select>
+        </div>
+
+        <br /><br />
+        <div class="form-group">
+            <input type="submit" value="Registrar compra" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-dark">Cancelar</a>
+        </div>
+    </form>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<script>
+    // Mostrar el aside al pasar el cursor por encima del botón
+    document.getElementById('asideToggleBtn').addEventListener('mouseover', function () {
+        document.getElementById('asideMenu').classList.add('show');
+    });
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    // Ocultar el aside cuando el cursor sale del aside
+    document.getElementById('asideMenu').addEventListener('mouseleave', function () {
+        document.getElementById('asideMenu').classList.remove('show');
+    });
+
+    // Función para calcular el total y formatear los valores en pesos colombianos sin mostrar decimales .00
+    function calcularTotal() {
+        let totalCompra = 0;
+        $('#productosTable tr').each(function (index, row) {
+            var cantidad = $(row).find('input[name="cantidades[]"]').val();
+            var precioUnitario = $(row).find('input[name="preciosUnitarios[]"]').val();
+            var subtotal = cantidad * precioUnitario;
+
+            // Formatear el subtotal sin decimales cuando sea .00
+            var formattedSubtotal = subtotal % 1 === 0 ?
+                subtotal.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }) :
+                subtotal.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+
+            $(row).find('input[name="subtotales[]"]').val(formattedSubtotal);
+            totalCompra += subtotal;
+        });
+
+        // Formatear el total sin decimales cuando sea .00
+        var formattedTotalCompra = totalCompra % 1 === 0 ?
+            totalCompra.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }) :
+            totalCompra.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+
+        $('#totalCompra').val(formattedTotalCompra);
+    }
+
+    // Detectar cambios en los inputs de cantidad o precio unitario
+    $(document).ready(function () {
+        // Detectar cambios en los inputs de cantidad o precio unitario
+        $('input[name^="cantidades[]"], input[name^="preciosUnitarios[]"]').on('input', function () {
+            calcularTotal();
+        });
+
+        // Funcionalidad para agregar un nuevo producto
+        $('#addProduct').click(function () {
+            var newRow = $('#productosTable tr:first').clone();
+            newRow.find('input').val(''); // Limpiar los campos
+            newRow.find('.removeProduct').click(function () {
+                $(this).closest('tr').remove();
+                calcularTotal(); // Recalcular el total después de eliminar un producto
+            });
+            $('#productosTable').append(newRow);
+        });
+
+        // Funcionalidad para eliminar un producto
+        $('.removeProduct').click(function () {
+            $(this).closest('tr').remove();
+            calcularTotal(); // Recalcular el total después de eliminar un producto
+        });
+    });
+</script>

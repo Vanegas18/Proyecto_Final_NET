@@ -49,25 +49,27 @@ namespace Proyecto_Final.Controllers
         public IActionResult Create()
         {
             ViewData["Idcompra"] = new SelectList(_context.Compras, "Idcompra", "Idcompra");
-            ViewData["Idproducto"] = new SelectList(_context.Productos, "Idproducto", "Idproducto");
+            ViewData["Idproducto"] = new SelectList(_context.Productos, "Idproducto", "Nombre");  // Usar el nombre del producto en lugar del ID
             return View();
         }
 
         // POST: DetalleCompras/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IddetalleCompra,Idcompra,Idproducto,Cantidad,PrecioUnitario,Subtotal")] DetalleCompra detalleCompra)
+        public async Task<IActionResult> Create([Bind("IddetalleCompra,Idcompra,Idproducto,Cantidad,PrecioUnitario")] DetalleCompra detalleCompra)
         {
             if (ModelState.IsValid)
             {
+                // Calcular el subtotal
+                detalleCompra.Subtotal = detalleCompra.Cantidad * detalleCompra.PrecioUnitario;
+
                 _context.Add(detalleCompra);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["Idcompra"] = new SelectList(_context.Compras, "Idcompra", "Idcompra", detalleCompra.Idcompra);
-            ViewData["Idproducto"] = new SelectList(_context.Productos, "Idproducto", "Idproducto", detalleCompra.Idproducto);
+            ViewData["Idproducto"] = new SelectList(_context.Productos, "Idproducto", "Nombre", detalleCompra.Idproducto);
             return View(detalleCompra);
         }
 
@@ -84,14 +86,13 @@ namespace Proyecto_Final.Controllers
             {
                 return NotFound();
             }
+
             ViewData["Idcompra"] = new SelectList(_context.Compras, "Idcompra", "Idcompra", detalleCompra.Idcompra);
-            ViewData["Idproducto"] = new SelectList(_context.Productos, "Idproducto", "Idproducto", detalleCompra.Idproducto);
+            ViewData["Idproducto"] = new SelectList(_context.Productos, "Idproducto", "Nombre", detalleCompra.Idproducto);
             return View(detalleCompra);
         }
 
         // POST: DetalleCompras/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IddetalleCompra,Idcompra,Idproducto,Cantidad,PrecioUnitario,Subtotal")] DetalleCompra detalleCompra)
@@ -105,6 +106,9 @@ namespace Proyecto_Final.Controllers
             {
                 try
                 {
+                    // Calcular el subtotal antes de guardar
+                    detalleCompra.Subtotal = detalleCompra.Cantidad * detalleCompra.PrecioUnitario;
+
                     _context.Update(detalleCompra);
                     await _context.SaveChangesAsync();
                 }
@@ -121,8 +125,9 @@ namespace Proyecto_Final.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["Idcompra"] = new SelectList(_context.Compras, "Idcompra", "Idcompra", detalleCompra.Idcompra);
-            ViewData["Idproducto"] = new SelectList(_context.Productos, "Idproducto", "Idproducto", detalleCompra.Idproducto);
+            ViewData["Idproducto"] = new SelectList(_context.Productos, "Idproducto", "Nombre", detalleCompra.Idproducto);
             return View(detalleCompra);
         }
 
@@ -155,9 +160,10 @@ namespace Proyecto_Final.Controllers
             if (detalleCompra != null)
             {
                 _context.DetalleCompras.Remove(detalleCompra);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 

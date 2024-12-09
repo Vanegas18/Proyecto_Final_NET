@@ -4,33 +4,59 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
 <div>
     <h4>Compra</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Fecha)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Fecha)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Total)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Total)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IdproveedorNavigation)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdproveedorNavigation.Idproveedor)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdproveedorNavigation.Nombre)
         </dd>
     </dl>
 </div>
+
+<h3>Detalles de los Productos</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detalle in Model.DetalleCompras)
+        {
+            <tr>
+                <td>@detalle.IdproductoNavigation.Nombre</td> <!-- Nombre del Producto -->
+                <td>@detalle.Cantidad</td> <!-- Cantidad del Producto -->
+                <td>@detalle.PrecioUnitario.ToString("C2")</td> <!-- Precio Unitario -->
+                <td>@(decimal.Parse(detalle.Subtotal.ToString()).ToString("C2"))</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Idcompra">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Idcompra" class="btn btn-warning">Editar</a> |
+    <a asp-action="Index" class="btn btn-primary">Volver al Listado</a>
 </div>

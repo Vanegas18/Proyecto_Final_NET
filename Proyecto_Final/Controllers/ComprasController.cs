@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Final.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Proyecto_Final.Controllers
 {
@@ -25,46 +23,59 @@ namespace Proyecto_Final.Controllers
             return View(await proyectoFinalNetContext.ToListAsync());
         }
 
-        // GET: Compras/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var compra = await _context.Compras
-                .Include(c => c.IdproveedorNavigation)
-                .FirstOrDefaultAsync(m => m.Idcompra == id);
-            if (compra == null)
-            {
-                return NotFound();
-            }
-
-            return View(compra);
-        }
-
         // GET: Compras/Create
         public IActionResult Create()
         {
-            ViewData["Idproveedor"] = new SelectList(_context.Proveedores, "Idproveedor", "Idproveedor");
+            // Pasa la lista de proveedores y productos a la vista
+            ViewData["Idproveedor"] = new SelectList(_context.Proveedores, "Idproveedor", "Nombre");
+            ViewData["Productos"] = _context.Productos.ToList();  // Pasa los productos disponibles para la selección
             return View();
         }
 
         // POST: Compras/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Idcompra,Fecha,Idproveedor,Total,Estado")] Compra compra)
+        public async Task<IActionResult> Create(Compra compra, int[] productos, int[] cantidades, decimal[] preciosUnitarios)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(compra);
+                // 1. Guardar la compra en la base de datos para obtener el Idcompra
+                _context.Compras.Add(compra);
+                await _context.SaveChangesAsync();  // Esto genera el Idcompra
+
+                // 2. Crear los detalles de la compra y asignarlos al Idcompra
+                for (int i = 0; i < productos.Length; i++)
+                {
+                    var detalleCompra = new DetalleCompra
+                    {
+                        Idcompra = compra.Idcompra,  // Asignar el Idcompra generado
+                        Idproducto = productos[i],
+                        Cantidad = cantidades[i],
+                        PrecioUnitario = preciosUnitarios[i],
+                        Subtotal = cantidades[i] * preciosUnitarios[i]  // Calcular el subtotal
+                    };
+
+                    _context.DetalleCompras.Add(detalleCompra);  // Guardar el detalle de la compra
+                }
+
+                // 3. Guardar los detalles de la compra en la base de datos
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // 4. Calcular el total de la compra (suma de los subtotales de los detalles)
+                compra.Total = _context.DetalleCompras
+                    .Where(d => d.Idcompra == compra.Idcompra)
+                    .Sum(d => (decimal?)d.Subtotal) ?? 0m;  // Sumar los subtotales de los detalles
+
+                // 5. Actualizar la compra con el total calculado
+                _context.Compras.Update(compra);
+                await _context.SaveChangesAsync();  // Guardar los cambios, incluida la actualización del total
+
+                return RedirectToAction(nameof(Index));  // Redirigir a la lista de compras
             }
-            ViewData["Idproveedor"] = new SelectList(_context.Proveedores, "Idproveedor", "Idproveedor", compra.Idproveedor);
+
+            // Si la validación falla, recargar la vista con los datos actuales
+            ViewData["Idproveedor"] = new SelectList(_context.Proveedores, "Idproveedor", "Nombre", compra.Idproveedor);
+            ViewData["Productos"] = _context.Productos.ToList();  // Pasa los productos disponibles para la selección
             return View(compra);
         }
 
@@ -76,21 +87,25 @@ namespace Proyecto_Final.Controllers
                 return NotFound();
             }
 
-            var compra = await _context.Compras.FindAsync(id);
+            var compra = await _context.Compras
+                .Include(c => c.DetalleCompras)
+                .ThenInclude(d => d.IdproductoNavigation)
+                .FirstOrDefaultAsync(m => m.Idcompra == id);
+
             if (compra == null)
             {
                 return NotFound();
             }
-            ViewData["Idproveedor"] = new SelectList(_context.Proveedores, "Idproveedor", "Idproveedor", compra.Idproveedor);
+
+            ViewData["Idproveedor"] = new SelectList(_context.Proveedores, "Idproveedor", "Nombre", compra.Idproveedor);
+            ViewData["Productos"] = _context.Productos.ToList();  // Pasa la lista de productos a la vista
             return View(compra);
         }
 
         // POST: Compras/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Idcompra,Fecha,Idproveedor,Total")] Compra compra)
+        public async Task<IActionResult> Edit(int id, Compra compra, int[] productos, int[] cantidades, decimal[] preciosUnitarios)
         {
             if (id != compra.Idcompra)
             {
@@ -101,8 +116,42 @@ namespace Proyecto_Final.Controllers
             {
                 try
                 {
+                    // Actualizar la compra
                     _context.Update(compra);
                     await _context.SaveChangesAsync();
+
+                    // Eliminar los detalles existentes
+                    var detallesAntiguos = _context.DetalleCompras.Where(d => d.Idcompra == compra.Idcompra);
+                    _context.DetalleCompras.RemoveRange(detallesAntiguos);
+                    await _context.SaveChangesAsync();
+
+                    // Agregar los nuevos detalles de compra
+                    for (int i = 0; i < productos.Length; i++)
+                    {
+                        var detalleCompra = new DetalleCompra
+                        {
+                            Idcompra = compra.Idcompra,  // Asignar el Idcompra
+                            Idproducto = productos[i],
+                            Cantidad = cantidades[i],
+                            PrecioUnitario = preciosUnitarios[i],
+                            Subtotal = cantidades[i] * preciosUnitarios[i]  // Calcular el subtotal
+                        };
+                        _context.DetalleCompras.Add(detalleCompra);
+                    }
+
+                    // Guardar los nuevos detalles de compra
+                    await _context.SaveChangesAsync();
+
+                    // Recalcular el total de la compra
+                    compra.Total = _context.DetalleCompras
+                        .Where(d => d.Idcompra == compra.Idcompra)
+                        .Sum(d => (decimal?)d.Subtotal) ?? 0m;
+
+                    // Actualizar el total de la compra
+                    _context.Compras.Update(compra);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -115,9 +164,10 @@ namespace Proyecto_Final.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["Idproveedor"] = new SelectList(_context.Proveedores, "Idproveedor", "Idproveedor", compra.Idproveedor);
+
+            ViewData["Idproveedor"] = new SelectList(_context.Proveedores, "Idproveedor", "Nombre", compra.Idproveedor);
+            ViewData["Productos"] = _context.Productos.ToList();
             return View(compra);
         }
 
@@ -151,7 +201,6 @@ namespace Proyecto_Final.Controllers
                 _context.Compras.Remove(compra);
                 await _context.SaveChangesAsync();
             }
-
             return RedirectToAction(nameof(Index));
         }
 
