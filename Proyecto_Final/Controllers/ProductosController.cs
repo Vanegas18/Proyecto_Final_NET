@@ -161,15 +161,16 @@ namespace Proyecto_Final.Controllers
             var producto = await _context.Productos.FindAsync(id);
             if (producto == null)
             {
-                TempData["Error"] = "No se puede eliminar el producto, no se encontró";
+                TempData["Error"] = "No se puede eliminar el producto, no se encontro";
                 return RedirectToAction(nameof(Index));
             }
 
             // Verifica si el producto está siendo utilizado en alguna venta y en caso de estarlo, muestra un mensaje de error
             var ventasAsociadas = await _context.DetalleVentas.AnyAsync(dv => dv.Idproducto == id);
-            if (ventasAsociadas)
+            var comprasAsociadas = await _context.DetalleCompras.AnyAsync(dc => dc.Idproducto == id);
+            if (ventasAsociadas || comprasAsociadas)
             {
-                TempData["Error"] = "No se puede eliminar el producto, está siendo utilizado en una venta";
+                TempData["Error"] = "No se puede eliminar el producto, esta siendo utilizado en una venta o compra";
                 return RedirectToAction(nameof(Index));
             }
             else
